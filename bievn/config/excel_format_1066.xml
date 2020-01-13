@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<roots>
+  <excel_source name="upload-kpi">
+     <permission_id>1066</permission_id>
+     <permission_name>upload-kpi</permission_name>
+     <UploadedDirectory>KPI</UploadedDirectory>
+	 <HelpDocumentPath>KQKD.zip</HelpDocumentPath>
+	 <Note>
+		<![CDATA[
+			Được sử dụng upload dữ liệu báo cáo kết quả quản lý doanh nghiệp
+        ]]>
+	 </Note>
+	 <Export>
+		<isExport>true</isExport>
+		<url>F88ImportExcel/ExportExcel</url>
+		<isExportBaseMonth>false</isExportBaseMonth>
+		<isExportOff>false</isExportOff>
+	 </Export>
+	 <FileNativeName>kpi</FileNativeName>
+	  <paras>
+		<para>
+			<name>report_name</name>
+			<resource>xml</resource>
+			<row>0</row>
+			<column></column>
+			<active>false</active>
+			<value>kpi</value>
+			<datatype>string</datatype>
+		</para>
+		<para>
+			<name>Month</name>
+			<resource>excel</resource>
+			<row>1</row>
+			<column></column>
+			<active>false</active>
+			<value></value>
+			<datatype>int</datatype>
+		</para>
+		<para>
+			<name>Year</name>
+			<resource>excel</resource>
+			<row>2</row>
+			<column></column>
+			<active>false</active>
+			<value></value>
+			<datatype>int</datatype>
+		</para>
+
+	 </paras>
+    <ExchangingData>
+      <database>
+        <tablename>WS_KPI_WS</tablename>
+		<storeprocedure></storeprocedure>
+      </database>
+      <excel>
+        <file_pre></file_pre>
+        <sheet_active started_row="1">Sheet1</sheet_active>
+      </excel>
+      <mapping>
+        <column>
+          <name>kpi_name</name>
+          <datatype>string</datatype>
+          <mapping2excel></mapping2excel>
+        </column>         
+       
+        <column>
+          <name>report_name</name>
+          <datatype>string</datatype>
+          <mapping2excel></mapping2excel>
+        </column>  	
+		<column>
+          <name>group_name</name>
+          <datatype>string</datatype>
+          <mapping2excel></mapping2excel>
+        </column>			 
+	</mapping>
+    </ExchangingData>
+  </excel_source>
+</roots>

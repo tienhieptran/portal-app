@@ -1,0 +1,62 @@
+﻿@model BI_Project.Services.User.BlockDataMenuLeftModel
+@using BI_Project.Models.EntityModels;
+@using System.Text.RegularExpressions;
+@using BI_Project.Services.Menus;
+@{
+
+    var request = HttpContext.Current.Request;
+    string baseUrl = string.Format("{0}://{1}", request.Url.Scheme, request.Url.Authority);
+
+    Dictionary<string, string> dicExtraClass = new Dictionary<string, string>();
+    dicExtraClass["ul_class"] = " collapse ";
+
+    BlockMenuLeftLangModel blockLang = new BlockMenuLeftLangModel();
+    blockLang.SetLanguage((object)ViewData["VIEWDATA_LANGUAGE"]);
+}
+
+<ul class="navigation navigation-main navigation-accordion">
+    <!-- Main -->
+    <li class="navigation-header"><i class="icon-menu" title="Main pages"></i></li>
+    @{
+
+        if ((null != Session["IsAdmin"]) && ((bool)Session["IsAdmin"] == true))
+        {
+            <li>
+                <a href="~/Users/Create"><i class="icon-people"></i><span>@blockLang.ManagingUsers</span></a>
+                <ul>
+                    <li><a href="~/Users/List"><i class="icon-people"></i><span>@blockLang.ListofUser</span></a></li>
+                    <li><a href="~/Users/Create"><i class="icon-people"></i><span>@blockLang.CreateNewUser</span></a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="~/Roles/Create"><i class="icon-tree6"></i><span>@blockLang.ManagingRoles</span></a>
+                <ul>
+                    <li><a href="~/Roles/List"><i class="icon-tree6"></i><span>@blockLang.ListofRole</span></a></li>
+                    <li><a href="~/Roles/Create"><i class="icon-tree6"></i><span>@blockLang.CreateNewRole</span></a></li>
+                </ul>
+
+            </li>
+            <li>
+                <a href="~/Menus/List"><i class="icon-stack"></i><span>@blockLang.ManagingMenus</span></a>
+
+                <ul>
+                    <li><a href="~/Menus/List"><i class="icon-stack"></i><span>@blockLang.ListofMenu</span></a></li>
+                    <li><a href="~/Menus/Create"><i class="icon-stack"></i><span>@blockLang.CreateNewMenu</span></a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="~/Departments/Create"><i class="icon-inbox"></i><span>@blockLang.ManaginDepartments</span></a>
+                <ul>
+                    <li><a href="~/Departments/List"><i class="icon-inbox"></i><span>@blockLang.ListofDepartments</span></a></li>
+                    <li><a href="~/Departments/Create"><i class="icon-inbox"></i><span>@blockLang.CreateNewDepartments</span></a></li>
+                </ul>
+
+            </li>
+
+        }
+
+        @Html.Raw(BI_Project.Helpers.UIHelper.GeneralTreeFantacy(baseUrl, dicExtraClass, Model.LstAllOfMenus, new List<int>()))
+
+    }
+
+</ul>
