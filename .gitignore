@@ -3,6 +3,7 @@
 *.userosscache
 *.sln.docstates
 
+.vs/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
@@ -14,4 +15,4 @@ bld/
 [Bb]in/
 [Oo]bj/
 logs/
-.vs/	
+	
