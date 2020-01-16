@@ -684,11 +684,123 @@ namespace BI_Project.Services.Importers
                 this.ERROR = ex.ToString();
             }
 
+            return output;
+        }
+
+        public List<DNT_QMKL_QD41> GetList_DNT_QMKL_QD41(int month, int year){
+            List<DNT_QMKL_QD41> output = new List<DNT_QMKL_QD41>();
+            OracleTransaction transaction = null;
+            ConnectOracleDB.OpenDBConnect();
+            transaction = ConnectOracleDB.OracleDBConnect.BeginTransaction();
+            ConnectOracleDB.command.Transaction = transaction;
+            ConnectOracleDB.command.Parameters.Clear();
+
+            string sqlSelectMenu = "select * from DNT_QMKL_QD41 where THANG_BC =" +month+" and NAM_BC = "+year;
+            this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
+            this.ConnectOracleDB.command.CommandType = CommandType.Text;
+            try
+            {
+                OracleDataReader objReader = this.ConnectOracleDB.command.ExecuteReader();
+                while (objReader.Read())
+                {
+                    DNT_QMKL_QD41 model = new DNT_QMKL_QD41();
+                    model.MA_DVIQLY = objReader.GetString(objReader.GetOrdinal("MA_DVIQLY"));
+                    model.TEN_CTRINH = objReader.GetString(objReader.GetOrdinal("TEN_CTRINH"));
+                    model.THANG_BC = objReader.GetInt32(objReader.GetOrdinal("THANG_BC"));
+                    model.NAM_BC = objReader.GetInt32(objReader.GetOrdinal("NAM_BC"));
+                    model.SL_CTRINH = objReader.GetInt32(objReader.GetOrdinal("SL_CTRINH"));
+                    model.DZ_110_UB = objReader.GetInt32(objReader.GetOrdinal("DZ_110_UB"));
+                    model.DZ_TTHE_UB = objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE_UB"));
+                    model.SL_TRAM_UB = objReader.GetInt32(objReader.GetOrdinal("SL_TRAM_UB"));
+                    model.DL_TBA_UB = objReader.GetInt32(objReader.GetOrdinal("DL_TBA_UB"));
+                    model.DZ_HTHE_UB = objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE_UB"));
+                    model.NAM_VH_UB = objReader.GetInt32(objReader.GetOrdinal("NAM_VH_UB"));
+                    model.NG_NSNN_UB = objReader.GetInt32(objReader.GetOrdinal("NG_NSNN_UB"));
+                    model.NG_VHPT_UB = objReader.GetString(objReader.GetOrdinal("NG_VHPT_UB"));
+                    model.NG_VVUD_UB = objReader.GetString(objReader.GetOrdinal("NG_VVUD_UB"));
+                    model.NG_QPT_UB = objReader.GetInt32(objReader.GetOrdinal("NG_QPT_UB"));
+                    model.NG_VTD_UB = objReader.GetInt32(objReader.GetOrdinal("NG_VTD_UB"));
+                    model.GT_CLAI_UB = objReader.GetInt32(objReader.GetOrdinal("GT_CLAI_UB"));
+                    model.QD_NTN_UB = objReader.GetInt32(objReader.GetOrdinal("QD_NTN_UB"));
+                    model.QD_GT_UB = objReader.GetInt32(objReader.GetOrdinal("QD_GT_UB"));
+                    model.PHAN_LOAI = objReader.GetString(objReader.GetOrdinal("PHAN_LOAI"));
+                    model.DZ_110_EVN = objReader.GetInt32(objReader.GetOrdinal("DZ_110_EVN"));
+                    model.DZ_TTHE_EVN = objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE_EVN"));
+                    model.SL_TRAM_EVN = objReader.GetInt32(objReader.GetOrdinal("SL_TRAM_EVN"));
+                    model.DL_TBA_EVN = objReader.GetInt32(objReader.GetOrdinal("DL_TBA_EVN"));
+                    model.DZ_HTHE_EVN = objReader.GetString(objReader.GetOrdinal("DZ_HTHE_EVN"));
+                    model.NAM_VH_EVN = objReader.GetString(objReader.GetOrdinal("NAM_VH_EVN"));
+                    model.QD_NTN_EVN = objReader.GetInt32(objReader.GetOrdinal("QD_NTN_EVN"));
+                    model.QD_GT_EVN = objReader.GetInt32(objReader.GetOrdinal("QD_GT_EVN"));
+                    model.GT_NGTN_EVN = objReader.GetInt32(objReader.GetOrdinal("GT_NGTN_EVN"));
+                    model.GT_CLAI_EVN = objReader.GetInt32(objReader.GetOrdinal("GT_CLAI_EVN"));
+                    model.CP_TN_EVN = objReader.GetInt32(objReader.GetOrdinal("CP_TN_EVN"));
+                    model.XNHAN_EVN = objReader.GetInt32(objReader.GetOrdinal("XNHAN_EVN"));
+                    model.DZ_110_G = objReader.GetInt32(objReader.GetOrdinal("DZ_110_G"));
+                    model.DZ_TTHE_G = objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE_G"));
+                    model.SL_TRAM_G = objReader.GetInt32(objReader.GetOrdinal("SL_TRAM_G"));
+                    model.DL_TBA_G = objReader.GetInt32(objReader.GetOrdinal("DL_TBA_G"));
+                    model.DZ_HTHE_G = objReader.GetString(objReader.GetOrdinal("DZ_HTHE_G"));
+                    model.NAM_VH_G = objReader.GetInt32(objReader.GetOrdinal("NAM_VH_G"));
+                    model.QD_NTN_G = objReader.GetInt32(objReader.GetOrdinal("QD_NTN_G"));
+                    model.QD_GT_G = objReader.GetInt32(objReader.GetOrdinal("QD_GT_G"));
+                    model.GT_NGTN_G = objReader.GetInt32(objReader.GetOrdinal("GT_NGTN_G"));
+                    model.GT_CLAI_G = objReader.GetInt32(objReader.GetOrdinal("GT_CLAI_G"));
+                    model.CP_TN_G = objReader.GetInt32(objReader.GetOrdinal("CP_TN_G"));
+                    output.Add(model);
+                } 
+            }
+            catch (Exception ex)
+            {
+                this.ERROR = ex.ToString();
+                output = null;
+            }           
 
             return output;
         }
 
-        public List<DNT_QMKLTN_HA1820> GetList_DNT_QMKLTN_HA1820()
+        public List<DNT_QMKLTN_NVK> GetList_DNT_QMKLTN_NVK(int month, int year){
+            List<DNT_QMKLTN_NVK> output = new List<DNT_QMKLTN_NVK>();
+            OracleTransaction transaction = null;
+            ConnectOracleDB.OpenDBConnect();
+            transaction = ConnectOracleDB.OracleDBConnect.BeginTransaction();
+            ConnectOracleDB.command.Transaction = transaction;
+            ConnectOracleDB.command.Parameters.Clear();
+
+            string sqlSelectMenu = "select * from DNT_QMKLTN_NVK where THANG_BC =" +month+" and NAM_BC = "+year;
+            this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
+            this.ConnectOracleDB.command.CommandType = CommandType.Text;
+            try
+            {
+                OracleDataReader objReader = this.ConnectOracleDB.command.ExecuteReader();
+                while (objReader.Read())
+                {
+                    DNT_QMKLTN_NVK model = new DNT_QMKLTN_NVK();
+                    model.MA_DVIQLY = objReader.GetString(objReader.GetOrdinal("MA_DVIQLY"));
+                    model.TEN_CTRINH = objReader.GetString(objReader.GetOrdinal("TEN_CTRINH"));
+                    model.THANG_BC = objReader.GetInt32(objReader.GetOrdinal("THANG_BC"));
+                    model.NAM_BC = objReader.GetInt32(objReader.GetOrdinal("NAM_BC"));
+                    model.SL_CTRINH = objReader.GetInt32(objReader.GetOrdinal("SL_CTRINH"));
+                    model.DZ_110 = objReader.GetInt32(objReader.GetOrdinal("DZ_110"));
+                    model.DZ_TTHE = objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE"));
+                    model.SL_TRAM = objReader.GetInt32(objReader.GetOrdinal("SL_TRAM"));
+                    model.DL_TBA = objReader.GetInt32(objReader.GetOrdinal("DL_TBA"));
+                    model.DZ_HTHE = objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE"));
+                    model.SL_KHTN = objReader.GetInt32(objReader.GetOrdinal("SL_KHTN"));
+                    model.GTRI_CTRINH = objReader.GetInt32(objReader.GetOrdinal("GTRI_CTRINH"));
+                    output.Add(model);
+                } 
+            }
+            catch (Exception ex)
+            {
+                this.ERROR = ex.ToString();
+                output = null;
+            }           
+
+            return output;
+        }
+
+        public List<DNT_QMKLTN_HA1820> GetList_DNT_QMKLTN_HA1820(int month, int year)
         {
             List<DNT_QMKLTN_HA1820> output = new List<DNT_QMKLTN_HA1820>();
             OracleTransaction transaction = null;
@@ -697,30 +809,37 @@ namespace BI_Project.Services.Importers
             ConnectOracleDB.command.Transaction = transaction;
             ConnectOracleDB.command.Parameters.Clear();
 
-            string sqlSelectMenu = "select * from DNT_QMKLTN_HA1820 where THANG_BC = 3 and NAM_BC = 2019";
+            string sqlSelectMenu = "select * from DNT_QMKLTN_HA1820 where THANG_BC =" +month+" and NAM_BC = "+year;
             this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
             this.ConnectOracleDB.command.CommandType = CommandType.Text;
-
-            OracleDataReader objReader = this.ConnectOracleDB.command.ExecuteReader();
-            while (objReader.Read())
+            try
             {
-                DNT_QMKLTN_HA1820 model = new DNT_QMKLTN_HA1820();
-                model.MA_DVIQLY = objReader.GetString(objReader.GetOrdinal("MA_DVIQLY"));
-                model.TEN_CTRINH = objReader.GetString(objReader.GetOrdinal("TEN_CTRINH"));
-                model.THANG_BC = objReader.GetInt32(objReader.GetOrdinal("THANG_BC"));
-                model.NAM_BC = objReader.GetInt32(objReader.GetOrdinal("NAM_BC"));
-                model.SL_XA = objReader.GetInt32(objReader.GetOrdinal("SL_XA"));
-                model.SL_TCBD = objReader.GetInt32(objReader.GetOrdinal("SL_TCBD"));
-                model.DZ_HTHE = objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE"));
-                model.SO_HOTN = objReader.GetInt32(objReader.GetOrdinal("SO_HOTN"));
-                model.GTCL_VVNSNN = objReader.GetInt32(objReader.GetOrdinal("GTCL_VVNSNN"));
-                model.GTCL_VV = objReader.GetInt32(objReader.GetOrdinal("GTCL_VV"));
-                model.GTCL_VDTHTX = objReader.GetInt32(objReader.GetOrdinal("GTCL_VDTHTX"));
-                model.GTCL_VDAN = objReader.GetInt32(objReader.GetOrdinal("GTCL_VDAN"));
-                model.GTCL_VKHAC = objReader.GetInt32(objReader.GetOrdinal("GTCL_VKHAC"));
-                model.CPHI_TNCT = objReader.GetInt32(objReader.GetOrdinal("CPHI_TNCT"));
-                output.Add(model);
+                OracleDataReader objReader = this.ConnectOracleDB.command.ExecuteReader();
+                while (objReader.Read())
+                {
+                    DNT_QMKLTN_HA1820 model = new DNT_QMKLTN_HA1820();
+                    model.MA_DVIQLY = objReader.GetString(objReader.GetOrdinal("MA_DVIQLY"));
+                    model.TEN_CTRINH = objReader.GetString(objReader.GetOrdinal("TEN_CTRINH"));
+                    model.THANG_BC = objReader.GetInt32(objReader.GetOrdinal("THANG_BC"));
+                    model.NAM_BC = objReader.GetInt32(objReader.GetOrdinal("NAM_BC"));
+                    model.SL_XA = objReader.GetInt32(objReader.GetOrdinal("SL_XA"));
+                    model.SL_TCBD = objReader.GetInt32(objReader.GetOrdinal("SL_TCBD"));
+                    model.DZ_HTHE = objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE"));
+                    model.SO_HOTN = objReader.GetInt32(objReader.GetOrdinal("SO_HOTN"));
+                    model.GTCL_VVNSNN = objReader.GetInt32(objReader.GetOrdinal("GTCL_VVNSNN"));
+                    model.GTCL_VV = objReader.GetInt32(objReader.GetOrdinal("GTCL_VV"));
+                    model.GTCL_VDTHTX = objReader.GetInt32(objReader.GetOrdinal("GTCL_VDTHTX"));
+                    model.GTCL_VDAN = objReader.GetInt32(objReader.GetOrdinal("GTCL_VDAN"));
+                    model.GTCL_VKHAC = objReader.GetInt32(objReader.GetOrdinal("GTCL_VKHAC"));
+                    model.CPHI_TNCT = objReader.GetInt32(objReader.GetOrdinal("CPHI_TNCT"));
+                    output.Add(model);
+                } 
             }
+            catch (Exception ex)
+            {
+                this.ERROR = ex.ToString();
+                output = null;
+            }           
 
             return output;
         }

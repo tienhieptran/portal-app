@@ -268,14 +268,32 @@ namespace bicen.Controllers
 
             this.SetConnectionDB();
             EVNImporterServices services = new EVNImporterServices(oracleConnection, DBConnection);
-            var data2 = services.GetList_DNT_QMKLTN_HA1820();
+            var dataTable = null;
+            switch (file)
+            {
+                case 1:
+                    dataTable = services.GetList_DNT_QMKLTN_HA1820(month, year); break;
+                case 2:
+                    dataTable = services.GetList_DNT_QMKLTN_NVK(month, year); break;
+                case 3:
+                    dataTable = services.GetList_DNT_QMKLTN_HA1820(month, year); break;
+                case 4:
+                    dataTable = services.GetList_DNT_QMKLTN_HA1820(month, year); break;
+                case 5:
+                    dataTable = services.GetList_DNT_QMKLTN_HA1820(month, year); break;
+                case 6:
+                    dataTable = services.GetList_DNT_QMKLTN_HA1820(month, year); break;
+                default:
+                    dataTable = null;
+            }
+            // var data2 = services.GetList_DNT_QMKLTN_HA1820();
 
             var jsonData = new
             {
                 total = totalPages,
                 page = page,
                 records = totalRecords,
-                rows = data2
+                rows = dataTable
             };
 
             return Json(jsonData, JsonRequestBehavior.AllowGet);
