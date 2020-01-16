@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using BI_Project.Models.EntityModels;
+﻿using System.Web;
 namespace BI_Project.Services.Importers
 {
-    public class FileUploadModel 
+    public class FileUploadModel
     {
 
         public HttpPostedFileBase FileObj { get; set; }

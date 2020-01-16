@@ -126,7 +126,7 @@
                                 @{
                                     string selected = "  ";
 
-                                    for (int i = 1; i < 12; i++)
+                                    for (int i = 1; i < 13; i++)
                                     {
                                         if (i == blockData.Month) { selected = " selected  "; }
                                         else { selected = "  "; }
@@ -257,56 +257,51 @@
         form.submit();
     }
 
-    $(document).ready(function () {
+    @*
+        $(document).ready(function () {
             var myGrid = $('#jqGrid');
             myGrid.jqGrid({
-                url: '/EVNImportExcelPLController/GetDataRow/',
+                url: '/EVNImportExcelPL/GetDataRows/',
                 datatype: "json",
                 contentType: "application/json; charset-utf-8",
-                jsonReader: {
-                    root: "GetOrdersForCustomerResult",
-                    id: "MA_DVIQLY",
-                    repeatitems: false
-                },
                 mtype: 'GET',
-                colNames: ['MA_DVIQLY', 'TEN_CTRINH', 'THANG_BC', 'NAM_BC', 'SL_XA',
-                    'SL_TCBD', 'DZ_HTHE', 'SO_HOTN', 'GTCL_VVNSNN', 'GTCL_VV',
-                    'GTCL_VDTHTX', 'GTCL_VDAN', 'GTCL_VKHAC', 'CPHI_TNCT', 'Edit'],
+                colNames: ['MA_DVIQLY', 'TEN_CTRINH', 'THANG_BC', 'NAM_BC',
+                        'SL_XA', 'SL_TCBD', 'DZ_HTHE', 'SO_HOTN', 'GTCL_VVNSNN', 'GTCL_VV',
+                        'GTCL_VDTHTX', 'GTCL_VDAN', 'GTCL_VKHAC', 'CPHI_TNCT', 'Action'],
                 colModel: [
-                    { name: 'MA_DVIQLY', key: true, width: 50 },
-                    { name: 'TEN_CTRINH', key: true, width: 50 },
-                    { name: 'THANG_BC', key: true, width: 50 },
-                    { name: 'NAM_BC', key: true, width: 50 },
-                    { name: 'SL_XA', key: true, width: 50 },
-                    { name: 'SL_TCBD', key: true, width: 50 },
-                    { name: 'DZ_HTHE', key: true, width: 50 },
-                    { name: 'SO_HOTN', key: true, width: 50 },
-                    { name: 'GTCL_VVNSNN', key: true, width: 50 },
-                    { name: 'GTCL_VV', key: true, width: 50 },
-                    { name: 'GTCL_VDTHTX', key: true, width: 50 },
-                    { name: 'GTCL_VDAN', key: true, width: 50 },
-                    { name: 'GTCL_VKHAC', key: true, width: 50 },
-                    { name: 'CPHI_TNCT', key: true, width: 50 },
+                    { name: 'MA_DVIQLY', key: true, width: 50, editable: true },
+                    { name: 'TEN_CTRINH', key: true, width: 100, editable: true },
+                    { name: 'THANG_BC', key: true, width: 50, editable: true },
+                    { name: 'NAM_BC', key: true, width: 50, editable: true },
+                    { name: 'SL_XA', key: true, width: 75, editable: true },
+                    { name: 'SL_TCBD', key: true, width: 75, editable: true},
+                    { name: 'DZ_HTHE', key: true, width: 75, editable: true },
+                    { name: 'SO_HOTN', key: true, width: 75, editable: true },
+                    { name: 'GTCL_VVNSNN', key: true, width: 75, editable: true },
+                    { name: 'GTCL_VV', key: true, width: 75, editable: true },
+                    { name: 'GTCL_VDTHTX', key: true, width: 75, editable: true },
+                    { name: 'GTCL_VDAN', key: true, width: 75, editable: true },
+                    { name: 'GTCL_VKHAC', key: true, width: 75, editable: true },
+                    { name: 'CPHI_TNCT', key: true, width: 75, editable: true },
                     { name: 'Edit', key: true, width: 50, editable: true, formatter: editButton }
                 ],
                 rowNum: 4,
                 pager: '#jqGridPager',
                 gridview: true,
                 rownumbers: true,
-                loadonce: true,
-                sortname: "MA_DVIQLY",
                 pagerpos: 'center'
             });
 
-            $('#dialog').dialog({
+
+             $('#dialog').dialog({
                 autoOpen: false,
                 width: 400,
                 resizable: false,
-                title: 'Edit Product details',
+                title: 'Edit Row Detail',
                 modal: true,
                 open: function (event, ui) {
                     // Load partial view _GridEditPartial
-                    $(this).load("@Url.Action("GetProductById")", { id: id });
+                    $(this).load("@Url.Action("GetDataRowById")", { id: id });
                 },
                 buttons: {
                     "Close": function () {
@@ -316,14 +311,15 @@
             });
         });
 
-        function editButton(cellvalue, options, rowObject) {
-            return "<a data-value='" + rowObject.Id + "' href='javascript:void(0)' class='btnEdit'>Edit</a>";
-        }
+    function editButton(cellvalue, options, rowObject) {
+        return "<a data-value='" + rowObject.MA_DVIQLY + "' href='javascript:void(0)' class='btnEdit'>Edit</a>";
+    }
 
-        var id = 0;
-        $(document).on('click', '.btnEdit', function () {
-            id = $(this).attr("data-value");
-            $('#dialog').dialog('open');
-        });
+    var id = 0;
+    $(document).on('click', '.btnEdit', function () {
+        id = $(this).attr("data-value");
+        $('#dialog').dialog('open');
+    });
+    *@
 
 </script>

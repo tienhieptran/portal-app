@@ -26,7 +26,7 @@ namespace BI_Project.Models.UI
             this.BlockId = this.BlockName + "_1";
         }
 
-        public BlockModel(string blockName,Object languageObjet)
+        public BlockModel(string blockName, Object languageObjet)
         {
             this.BlockName = blockName;
             this.LanguageModel = new BlockLanguageModel();
@@ -35,7 +35,7 @@ namespace BI_Project.Models.UI
 
             this.LanguageModel.SetLanguage(languageObjet);
         }
-        public BlockModel(string blockName, Object languageObjet,BlockLanguageModel languageModel)
+        public BlockModel(string blockName, Object languageObjet, BlockLanguageModel languageModel)
         {
             this.BlockName = blockName;
             this.LanguageModel = languageModel;
@@ -44,10 +44,10 @@ namespace BI_Project.Models.UI
 
             this.LanguageModel.SetLanguage(languageObjet);
         }
-        public BlockModel(object data_model,  string block_name, string block_id)
+        public BlockModel(object data_model, string block_name, string block_id)
         {
             this.DataModel = data_model;
-            
+
             BlockName = block_name;
             BlockId = block_id;
             this.LanguageModel = new BlockLanguageModel();

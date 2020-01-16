@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using BI_Project.Services.User;
-using BI_Project.Models;
+﻿using BI_Project.Helpers;
 using BI_Project.Models.EntityModels;
 using BI_Project.Models.UI;
-using BI_Project.Helpers;
 using BI_Project.Services.Departments;
+using BI_Project.Services.User;
 using BI_SUN.Services.SetDefaultPage;
 using bicen.Models.EntityModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace BI_Project.Controllers
 {
@@ -50,7 +48,7 @@ namespace BI_Project.Controllers
                 var insertlog = userServices.UpdateLogUserLogout(logger);
             }
             System.Web.Security.FormsAuthentication.SignOut();
-            Session.Clear();            
+            Session.Clear();
             Logging.WriteToLog("[Info] " + Session["UserName"] + " logged out.", LogType.Access);
             return RedirectToAction("Login");
         }

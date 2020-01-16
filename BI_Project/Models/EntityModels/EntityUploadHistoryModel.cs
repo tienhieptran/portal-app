@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 using System.Data;
 
@@ -32,7 +29,7 @@ namespace BI_Project.Models.EntityModels
         public string FileUploadedName { set; get; }
         public string UserName { set; get; }
 
-        public static implicit operator EntityUploadHistoryModel (DataRow dr)
+        public static implicit operator EntityUploadHistoryModel(DataRow dr)
         {
             EntityUploadHistoryModel model = new EntityUploadHistoryModel();
 
@@ -43,7 +40,7 @@ namespace BI_Project.Models.EntityModels
                 model.HelpDocumentPath = (string)dr["HelpDocumentPath"];
                 model.Month = (int)dr["Month"];
                 model.Note = (string)dr["Note"];
-                 
+
                 try
                 {
                     if (null == dr["NumberInsertedRow"])
@@ -51,11 +48,11 @@ namespace BI_Project.Models.EntityModels
                     else
                         model.NumberInsertedRow = (int)dr["NumberInsertedRow"];
                 }
-                catch(Exception)
+                catch (Exception)
                 {
 
                 }
-                
+
                 model.Quarter = (int)dr["Quarter"];
                 model.StartTime = (DateTime)dr["StartTime"];
                 model.UserId = (int)dr["UserId"];
@@ -63,15 +60,15 @@ namespace BI_Project.Models.EntityModels
                 model.Year = (int)dr["Year"];
                 model.UserName = (string)dr["UserName"];
                 model.FileUploadedName = (string)dr["FileUploadedName"];
-                
+
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
             return model;
         }
 
-        
+
     }
 }

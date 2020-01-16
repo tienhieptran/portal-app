@@ -56,6 +56,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\EPPlus.dll</HintPath>
     </Reference>
+    <Reference Include="Json.Net, Version=1.0.18.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Json.Net.1.0.18\lib\netstandard2.0\Json.Net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -224,6 +227,8 @@
     <Compile Include="Services\Departments\BlockDepartmentListLangModel.cs" />
     <Compile Include="Services\Departments\DepartmentServices.cs" />
     <Compile Include="Services\EmbbedParam.cs" />
+    <Compile Include="Services\Importers\BlockDataRowUploadModel.cs" />
+    <Compile Include="Services\Importers\BlockLangRowUploadModel.cs" />
     <Compile Include="Services\Importers\BlockUIExcelUploadModel.cs" />
     <Compile Include="Services\Importers\DNT_QMKLTN_HA1820.cs" />
     <Compile Include="Services\Importers\ExcelModel.cs" />
@@ -254,6 +259,7 @@
     <Compile Include="Services\User\UserServices.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore" />
     <Content Include="assets\bootstrap.css" />
     <Content Include="assets\bootstrap.min.css" />
     <Content Include="assets\colors.css" />
@@ -280,6 +286,16 @@
     <Content Include="assets\css\icons\glyphicons\glyphicons-halflings-regular.svg" />
     <Content Include="assets\css\icons\icomoon\fonts\icomoon.svg" />
     <Content Include="assets\css\icons\icomoon\styles.css" />
+    <Content Include="assets\css\images\ui-icons_222222_256x240.png" />
+    <Content Include="assets\css\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="assets\css\images\ui-icons_444444_256x240.png" />
+    <Content Include="assets\css\images\ui-icons_454545_256x240.png" />
+    <Content Include="assets\css\images\ui-icons_555555_256x240.png" />
+    <Content Include="assets\css\images\ui-icons_888888_256x240.png" />
+    <Content Include="assets\css\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="assets\css\jquery-ui.css" />
+    <Content Include="assets\css\jquery-ui.min.css" />
+    <Content Include="assets\css\ui.jqgrid.css" />
     <Content Include="assets\demo_data\jquery_ui\autocomplete.php" />
     <Content Include="assets\demo_data\maps\vector\gdp_demo_data.js" />
     <Content Include="assets\demo_data\wizard\additional.html" />
@@ -460,6 +476,8 @@
     <Content Include="assets\js\core\libraries\bootstrap.min.js" />
     <Content Include="assets\js\core\libraries\jasny_bootstrap.min.js" />
     <Content Include="assets\js\core\libraries\jquery-3.3.1.js" />
+    <Content Include="assets\js\core\libraries\jquery-ui.js" />
+    <Content Include="assets\js\core\libraries\jquery-ui.min.js" />
     <Content Include="assets\js\core\libraries\jquery.min.js" />
     <Content Include="assets\js\core\libraries\jquery_ui\core.min.js" />
     <Content Include="assets\js\core\libraries\jquery_ui\effects.min.js" />
@@ -3152,6 +3170,11 @@
     <Content Include="HDSD\TAI LIEU HDSD HE THONG THEO DOI TINH HINH SU DUNG DIEN\_translations.js" />
     <Content Include="resources\images\discover.jpg" />
     <Content Include="resources\images\Ttxvn_EVN_Hanoi.jpg" />
+    <Content Include="resources\images\ui-icons_222222_256x240.png" />
+    <Content Include="resources\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="resources\images\ui-icons_454545_256x240.png" />
+    <Content Include="resources\images\ui-icons_888888_256x240.png" />
+    <Content Include="resources\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="resources\language\vi.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -3202,7 +3225,7 @@
     <Content Include="assets\js\core\libraries\jquery-ui-1.10.0.js" />
     <Content Include="Scripts\jquery-ui-1.10.0.min.js" />
     <Content Include="assets\js\core\libraries\jquery.jqGrid.js" />
-    <Content Include="Scripts\jquery.jqGrid.min.js" />
+    <Content Include="assets\js\core\libraries\jquery.jqGrid.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
@@ -3284,6 +3307,8 @@
     <Content Include="Views\Excels\EVNPL_block_upload_excel.cshtml" />
     <Content Include="Views\DefaultPage\SetDefaultPage.cshtml" />
     <Content Include="Views\EVNImportExcelPL\jqGrid.cshtml" />
+    <Content Include="Views\EVNImportExcelPL\_GridEditPartial.cshtml" />
+    <Content Include="Views\EVNImportExcelPL\EVNPL_block_upload_dnt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

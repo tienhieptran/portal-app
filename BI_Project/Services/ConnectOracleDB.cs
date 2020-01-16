@@ -1,11 +1,9 @@
 ﻿
+//using System.Data.OracleClient;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
-//using System.Data.OracleClient;
-using Oracle.ManagedDataAccess.Client;
-using System.Linq;
-using System.Web;
 
 namespace BI_Project.Services
 {

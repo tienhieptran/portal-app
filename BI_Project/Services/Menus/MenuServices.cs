@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using BI_Project.Models.EntityModels;
-using BI_Project.Helpers.Security;
-using System.Data.SqlClient;
+﻿using BI_Project.Models.EntityModels;
 using BI_Project.Services.User;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace BI_Project.Services.Menus
 {
@@ -18,7 +15,7 @@ namespace BI_Project.Services.Menus
         private static string USP_GET_MENUS_BY_USERID = "usp_Get_Menus_By_UserId";
 
 
-        public MenuServices(DBConnection dBConnection):base(dBConnection)
+        public MenuServices(DBConnection dBConnection) : base(dBConnection)
         {
             _userService = new UserServices(dBConnection);
         }
@@ -31,11 +28,11 @@ namespace BI_Project.Services.Menus
 
             try
             {
-                
+
 
                 DBConnection.OpenDBConnect();
                 //STEP1:  ***************************************************************/
-                
+
 
                 Dictionary<string, object> dicParas = new Dictionary<string, object>();
                 Dictionary<string, object> dicParaOuts = new Dictionary<string, object>();
@@ -76,7 +73,7 @@ namespace BI_Project.Services.Menus
                 //dicParas.Add("TableauUrl", menuModel.TableauUrl);
                 //dicParas.Add("Status", menuModel.Status);
                 //dicParas.Add("Priority", menuModel.Priority);
-               
+
                 //if(menuModel.MenuId==0)
                 //    //dicParas.Add("")
                 //output=  DBConnection.ExecSPNonQuery("SP_MENU_INSERT", dicParas, ref dicParaOuts, true);
@@ -86,9 +83,9 @@ namespace BI_Project.Services.Menus
                 //    output = DBConnection.ExecSPNonQuery("SP_MENU_UPDATE", dicParas, ref dicParaOuts, true);
                 //}
                 //STEP2:  ***************************************************************/
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.ERROR = ex.ToString();
                 output = -1;
@@ -97,7 +94,7 @@ namespace BI_Project.Services.Menus
             {
                 DBConnection.CloseDBConnect();
             }
-            
+
 
             return output;
         }
@@ -121,10 +118,10 @@ namespace BI_Project.Services.Menus
                 Dictionary<string, object> dicParas = new Dictionary<string, object>();
                 Dictionary<string, object> dicParaOuts = new Dictionary<string, object>();
                 dicParas.Add("MENUID", menuid);
-                
-                    //dicParas.Add("")
-                    output = DBConnection.ExecSPNonQuery("SP_MENU_DELETE", dicParas, ref dicParaOuts, true);
-                
+
+                //dicParas.Add("")
+                output = DBConnection.ExecSPNonQuery("SP_MENU_DELETE", dicParas, ref dicParaOuts, true);
+
                 //STEP2:  ***************************************************************/
 
             }
@@ -152,8 +149,8 @@ namespace BI_Project.Services.Menus
                 string sqlSelectMenu = " select * from Menu where menuid=@menuid";
                 this.DBConnection.command.Parameters.Clear();
                 this.DBConnection.command.CommandText = sqlSelectMenu;
-                this.DBConnection.command.Parameters.AddWithValue("@menuid", int.Parse(menuId) );
-                
+                this.DBConnection.command.Parameters.AddWithValue("@menuid", int.Parse(menuId));
+
                 using (SqlDataReader reader = DBConnection.command.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -161,11 +158,11 @@ namespace BI_Project.Services.Menus
                         while (reader.Read())
                         {
                             output.ParentId = reader.GetInt32(reader.GetOrdinal("ParentId"));
-                            output.Path = reader.IsDBNull(reader.GetOrdinal("Path")) ? "" : reader.GetString(reader.GetOrdinal ("Path"));
+                            output.Path = reader.IsDBNull(reader.GetOrdinal("Path")) ? "" : reader.GetString(reader.GetOrdinal("Path"));
                             output.Name = reader.IsDBNull(reader.GetOrdinal("Name")) ? "" : reader.GetString(reader.GetOrdinal("Name"));
                             output.Priority = reader.GetInt32(reader.GetOrdinal("Priority"));
                             output.MenuId = reader.GetInt32(reader.GetOrdinal("MenuId"));
-                            output.TableauUrl = reader.IsDBNull(reader.GetOrdinal("TableauUrl")) ? "" :reader.GetString(reader.GetOrdinal("TableauUrl"));
+                            output.TableauUrl = reader.IsDBNull(reader.GetOrdinal("TableauUrl")) ? "" : reader.GetString(reader.GetOrdinal("TableauUrl"));
                             output.DeptID = reader.GetInt32(reader.GetOrdinal("DeptId"));
 
                         }

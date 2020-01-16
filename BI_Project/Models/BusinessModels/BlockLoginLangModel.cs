@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
+﻿
 using BI_Project.Models.UI;
 namespace BI_Project.Models.BusinessModels
 {
-    public class BlockLoginLangModel: BlockLanguageModel
+    public class BlockLoginLangModel : BlockLanguageModel
     {
         public string LblHelpTitle { set; get; }
 

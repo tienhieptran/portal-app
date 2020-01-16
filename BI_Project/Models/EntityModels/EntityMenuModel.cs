@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace BI_Project.Models.EntityModels
+﻿namespace BI_Project.Models.EntityModels
 {
     public class EntityMenuModel
     {
@@ -23,14 +18,15 @@ namespace BI_Project.Models.EntityModels
 
         public string TableauUrl { set; get; }
         public int DeptID { get; set; }
-        public int Level {
-            
+        public int Level
+        {
+
 
             get
             {
-                string[] separatingChars = { "@@@"};
-                string[] lstLevel = (LevelTree + "@@@abc").Split(separatingChars,System.StringSplitOptions.RemoveEmptyEntries);
-                
+                string[] separatingChars = { "@@@" };
+                string[] lstLevel = (LevelTree + "@@@abc").Split(separatingChars, System.StringSplitOptions.RemoveEmptyEntries);
+
                 _level = lstLevel.Length - 1;
                 return _level;
             }
@@ -46,7 +42,7 @@ namespace BI_Project.Models.EntityModels
             Path = "";
         }
 
-        public  EntityMenuModel Clone()
+        public EntityMenuModel Clone()
         {
             EntityMenuModel output = new EntityMenuModel();
             output.FilterCommand = this.FilterCommand;

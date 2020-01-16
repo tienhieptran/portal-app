@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using BI_Project.Models.EntityModels;
+﻿using BI_Project.Models.EntityModels;
 using bicen.Services.Importers;
+using System.Collections.Generic;
 
 namespace BI_Project.Services.Importers
 {
-    public class BlockDataExcelUploadModel 
+    public class BlockDataExcelUploadModel
     {
-        
-        
 
-        public BlockDataExcelUploadModel():base()
+
+
+        public BlockDataExcelUploadModel() : base()
         {
-        
+
         }
 
         public List<EntityUploadHistoryModel> ListHistory { set; get; }
@@ -26,7 +23,7 @@ namespace BI_Project.Services.Importers
 
         public int NumberPages { set; get; }
 
-        
+
 
         public string FolderUpload { set; get; }
 

@@ -2,14 +2,10 @@
 using BI_Project.Helpers.Utility;
 using BI_Project.Models.UI;
 using BI_Project.Services.Importers;
-using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Mime;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 
@@ -39,7 +35,7 @@ namespace BI_Project.Controllers
                 uiModel.CurrentPage = Int32.Parse(Request.Params["page"]);
 
             }
-            catch (Exception e )
+            catch (Exception e)
             {
                 uiModel.CurrentPage = 1;
             }
@@ -183,7 +179,7 @@ namespace BI_Project.Controllers
                 int currentYear = model.currentyear;
                 //services.Import2Database(userid,excelFilePath, tablename, startRow, sheetActive,helpDocumentPath,
                 //    note,fileNativeName,fileNativeName,uploadRoleId, lstColumns,excelfilename);
-                services.ImportToDatabase(currentYear,userid, excelFilePath, tablename, startRow, sheetActive, helpDocumentPath,
+                services.ImportToDatabase(currentYear, userid, excelFilePath, tablename, startRow, sheetActive, helpDocumentPath,
                     note, fileNativeName, fileNativeName, uploadRoleId, lstColumns, excelfilename); //, numberRow, numberCell, lstCellName
                 if (services.ERROR != null) throw new Exception(services.ERROR);
 
@@ -202,7 +198,7 @@ namespace BI_Project.Controllers
             return RedirectToAction("Index/" + model.PermissionId);
         }
 
-        
+
         /// <summary>
         /// Use with the xml file contains paras elements
         /// </summary>
@@ -263,7 +259,7 @@ namespace BI_Project.Controllers
 
                 Session["msg_code"] = -1;
             }
-            
+
             return RedirectToAction("Index/" + model.PermissionId);
         }
 
@@ -273,18 +269,18 @@ namespace BI_Project.Controllers
             string xmlFilePath = this.CONFIG_FOLDER + "\\excel_export_format.xml";
 
             BI_Project.Helpers.ExcelHelper excelHelper = new ExcelHelper();
-            
+
             string excelFileName = "";
 
             ExcelXmlModel model = excelHelper.GetUploadExcelXMLConfig(xmlFilePath, id);
-           
+
             this.SetConnectionDB();
 
             EVNImporterServices services = new EVNImporterServices(oracleConnection, DBConnection);
             this.oracleConnection.OpenDBConnect();
-            List<Dictionary< string,object>> data =  services.GetStoreData(model);
+            List<Dictionary<string, object>> data = services.GetStoreData(model);
 
-            MemoryStream memoryStream = excelHelper.ExportExcel(model, data, ref excelFileName);            
+            MemoryStream memoryStream = excelHelper.ExportExcel(model, data, ref excelFileName);
             this.oracleConnection.CloseDBConnect();
             return File(memoryStream.ToArray(), "application/vnd.ms-excel", excelFileName + ".xlsx");
 
@@ -305,7 +301,7 @@ namespace BI_Project.Controllers
             string excelFileName = "";
 
             ExcelXmlModel model = excelHelper.GetUploadExcelXMLConfig(xmlFilePath, id);
-         
+
 
             this.SetConnectionDB();
 
@@ -315,7 +311,7 @@ namespace BI_Project.Controllers
 
             MemoryStream memoryStream = excelHelper.ExportExcel(model, data, ref excelFileName);
 
-            this.oracleConnection.CloseDBConnect();            
+            this.oracleConnection.CloseDBConnect();
 
             return File(memoryStream.ToArray(), "application/vnd.ms-excel", excelFileName + ".xlsx");
 
@@ -332,7 +328,7 @@ namespace BI_Project.Controllers
             string excelFileName = "";
 
             ExcelXmlModel model = excelHelper.GetUploadExcelXMLConfig(xmlFilePath, id);
-            
+
 
             this.SetConnectionDB();
 
@@ -341,7 +337,7 @@ namespace BI_Project.Controllers
             List<Dictionary<string, object>> data = services.GetExcelConfigData(model);
 
             MemoryStream memoryStream = excelHelper.ExportExcel(model, data, ref excelFileName);
-            
+
 
             this.oracleConnection.CloseDBConnect();
             return File(memoryStream.ToArray(), "application/vnd.ms-excel", excelFileName + ".xlsx");
@@ -349,14 +345,14 @@ namespace BI_Project.Controllers
 
         [HttpPost]
         public async Task<FileResult> ExportPLExcel(FileUploadModel uploadModel)
-        {           
-            
+        {
+
             var memory = new MemoryStream();
             string xmlFilePath = this.CONFIG_FOLDER + "\\excel_export_format.xml";
             string id = uploadModel.PermissionId.ToString();
 
             ExcelHelper excelHelper = new ExcelHelper();
-            ExcelXmlModel model = excelHelper.GetUploadExcelXMLConfig(xmlFilePath,id);
+            ExcelXmlModel model = excelHelper.GetUploadExcelXMLConfig(xmlFilePath, id);
 
             try
             {
@@ -387,10 +383,10 @@ namespace BI_Project.Controllers
                     this.oracleConnection.CloseDBConnect();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.ERRORS = ex.ToString();
-            }            
+            }
             return File(memory.ToArray(), "application/vnd.ms-excel", model.ExcelXmlCommon.ExcelFileName + ".xlsx");
         }
 

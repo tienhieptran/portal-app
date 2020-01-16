@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using BI_Project.Services.Roles;
-using BI_Project.Models.EntityModels;
-using BI_Project.Helpers;
+﻿using BI_Project.Helpers;
 using BI_Project.Helpers.Utility;
 using BI_Project.Models.UI;
+using BI_Project.Services.Roles;
+using System;
+using System.Web.Mvc;
 
 namespace BI_Project.Controllers
 {
@@ -137,7 +133,7 @@ namespace BI_Project.Controllers
 
             //BlockDataRoleCreateModel model = services.GetEntityById(Int32.Parse(roleid));
             this.GetLanguage();
-            if(model.RoleId>0 ) ViewData["pagename"] = "role_edit";
+            if (model.RoleId > 0) ViewData["pagename"] = "role_edit";
 
             Services.Departments.DepartmentServices departmentServices = new Services.Departments.DepartmentServices(this.DBConnection);
 
@@ -171,14 +167,14 @@ namespace BI_Project.Controllers
                 this.SetConnectionDB();
 
 
-                
+
                 RoleServices services = new RoleServices(this.DBConnection);
                 if (services.ERROR != null) throw new Exception(services.ERROR);
                 output = services.Delete(Int32.Parse(id));
             }
             catch (Exception ex)
             {
-                 FileHelper.SaveFile(new { data = id, ERROR = ex }, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + APIStringHelper.GenerateFileId() + ".txt");
+                FileHelper.SaveFile(new { data = id, ERROR = ex }, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + APIStringHelper.GenerateFileId() + ".txt");
                 output = -2;
             }
             //*************************************XU LY VAN DE THONG BAO THANH CONG HAY THAT BAI********************
@@ -186,7 +182,7 @@ namespace BI_Project.Controllers
             BlockLangRoleCreateModel blockLang = new BlockLangRoleCreateModel();
             blockLang.BlockName = "block_role_list";
             blockLang.SetLanguage(this.LANGUAGE_OBJECT);
-            
+
             Session["msg_code"] = output;
             if (output > 1)
             {
@@ -220,29 +216,29 @@ namespace BI_Project.Controllers
             RoleServices services = new RoleServices(this.DBConnection);
 
             int result = services.Create(model);
-            
-            if(services.ERROR != null)
+
+            if (services.ERROR != null)
             {
                 FileHelper.SaveFile(new { data = model, ERROR = services.ERROR }, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + APIStringHelper.GenerateFileId() + ".txt");
-            }           
+            }
             //*************************************XU LY VAN DE THONG BAO THANH CONG HAY THAT BAI********************
             this.GetLanguage();
             BlockLangRoleCreateModel blockLang = new BlockLangRoleCreateModel();
             blockLang.BlockName = "block_role_create";
-             blockLang.SetLanguage(this.LANGUAGE_OBJECT);
+            blockLang.SetLanguage(this.LANGUAGE_OBJECT);
             Session["msg_text"] = blockLang.GetMessage(result);
             Session["msg_code"] = result;
-            if (model.RoleId>0 && result>1)
+            if (model.RoleId > 0 && result > 1)
             {
                 Session["msg_text"] = blockLang.GetLangByPath("messages.block_role_create.success_edit", this.LANGUAGE_OBJECT);
             }
-            if(result == 0)
+            if (result == 0)
             {
                 Session["msg_text"] = blockLang.GetLangByPath("messages.block_role_create.error_business_1", this.LANGUAGE_OBJECT);
                 //return RedirectToAction("Create?roleid=" + model.RoleId);
             }
             //*********************** INSERT OR EDIT SUCCESSFULLY**************************************************
-            if (result>0)
+            if (result > 0)
             {
                 return RedirectToAction("List");
             }

@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using BI_Project.Services.Menus;
+﻿using BI_Project.Helpers;
 using BI_Project.Models.EntityModels;
-using BI_Project.Services.Departments;
 using BI_Project.Models.UI;
-using BI_Project.Helpers;
+using BI_Project.Services.Menus;
+using System;
+using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
 namespace BI_Project.Controllers
 {
-    public class MenusController:BaseController
+    public class MenusController : BaseController
     {
 
         //private string x = SESSION_NAME_USERID;
@@ -21,7 +17,7 @@ namespace BI_Project.Controllers
         {
             if (null == Session[this.SESSION_NAME_USERID])
             {
-                return RedirectToAction("Login","Home");
+                return RedirectToAction("Login", "Home");
             }
             if (Session["IsAdmin"] is false)
             {
@@ -31,9 +27,9 @@ namespace BI_Project.Controllers
             ViewData["pagename"] = "menu_create";
             ViewData["action_block"] = "Menus/block_create_menu";
             ViewData["data-form"] = TempData["data"];
-             
 
-           
+
+
 
             string menuId = (Request.QueryString["menuid"] == null ? "0" : Request.QueryString["menuid"].ToString());
             this.SetConnectionDB();
@@ -54,13 +50,13 @@ namespace BI_Project.Controllers
             BI_Project.Models.UI.BlockModel blockModel = new Models.UI.BlockModel("block_create_menu", this.LANGUAGE_OBJECT, blockLang);
             blockModel.DataModel = entityMenuModel;
             ViewData["BlockData"] = blockModel;
-            if(menuServices.ERROR != null) BI_Project.Helpers.FileHelper.SaveFile(menuServices.ERROR, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + BI_Project.Helpers.Utility.APIStringHelper.GenerateFileId() + ".txt");
+            if (menuServices.ERROR != null) BI_Project.Helpers.FileHelper.SaveFile(menuServices.ERROR, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + BI_Project.Helpers.Utility.APIStringHelper.GenerateFileId() + ".txt");
             return View("~/" + this.THEME_FOLDER + "/" + this.THEME_ACTIVE + "/index.cshtml");
         }
         [HttpPost]
         [CheckUserMenus]
         public ActionResult Create(EntityMenuModel menu)
-         {
+        {
             if (null == Session[this.SESSION_NAME_USERID])
             {
                 return RedirectToAction("Login", "Home");
@@ -71,11 +67,11 @@ namespace BI_Project.Controllers
                 return RedirectToAction("Logout", "Home");
             }
             this.SetConnectionDB();
-            
 
-            int output =0 ;
+
+            int output = 0;
             MenuServices menuServices = new MenuServices(this.DBConnection);
-            
+
             output = menuServices.CreateMenu(menu);
 
             /****************************************RESPONSE FAILE OR SUCCESS******************************************/
@@ -98,15 +94,15 @@ namespace BI_Project.Controllers
                 Session["msg_text"] = blockLang.GetLangByPath("messages.block_menu_create.error_business_1", this.LANGUAGE_OBJECT);
                 //return RedirectToAction("Create?roleid=" + model.RoleId);
             }
-            if(output > 0)
+            if (output > 0)
             {
                 return RedirectToAction("List");
             }
-            
+
 
             TempData["data"] = menu;
             return RedirectToAction("Create");
-            
+
         }
 
         //public ActionResult List()
@@ -122,7 +118,7 @@ namespace BI_Project.Controllers
         //    this.SetCommonData();
         //    ViewData["pagename"] = "menu_list";
         //    ViewData["action_block"] = "Menus/block_menu_list";
-            
+
 
         //    this.GetLanguage();
         //    ViewData["VIEWDATA_LANGUAGE"] = this.LANGUAGE_OBJECT;
@@ -139,7 +135,7 @@ namespace BI_Project.Controllers
         //lIST
 
 
-        public ActionResult List( int? DeptID = null, int? userId = null, int? roleId = null)
+        public ActionResult List(int? DeptID = null, int? userId = null, int? roleId = null)
         {
             if (Session["IsAdmin"] is false)
             {
@@ -147,11 +143,11 @@ namespace BI_Project.Controllers
             }
             var _deptID = (int)Session["DepartIdUserLogin"];
             //DeptID = (int)Session["DepartIdUserLogin"];
-            if(DeptID == null)
+            if (DeptID == null)
             {
                 DeptID = _deptID;
             }
-            
+
             //CheckAdminPermission();
             SetCommonData();
             MenuServices menuServices = new MenuServices(DBConnection);
@@ -240,9 +236,9 @@ namespace BI_Project.Controllers
                 MenuServices menuServices = new MenuServices(this.DBConnection);
 
                 output = menuServices.Delete(Int32.Parse(menuid));
-                if(menuServices.ERROR != null) BI_Project.Helpers.FileHelper.SaveFile(menuServices.ERROR, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + BI_Project.Helpers.Utility.APIStringHelper.GenerateFileId() + ".txt");
+                if (menuServices.ERROR != null) BI_Project.Helpers.FileHelper.SaveFile(menuServices.ERROR, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + BI_Project.Helpers.Utility.APIStringHelper.GenerateFileId() + ".txt");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }

@@ -1,17 +1,14 @@
-﻿using System;
+﻿using BI_Project.Models.EntityModels;
+using BI_Project.Services;
+using BI_Project.Services.User;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Routing;
-
-using BI_Project.Models.EntityModels;
-using BI_Project.Services.User;
-using BI_Project.Services;
 namespace BI_Project.Helpers
 {
-    public class CheckUserMenus: ActionFilterAttribute
+    public class CheckUserMenus : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -26,7 +23,7 @@ namespace BI_Project.Helpers
             {
                 isAdmin = (bool)filterContext.HttpContext.Session["isAdmin"];
             }
-            catch(Exception)
+            catch (Exception)
             {
                 isAdmin = false;
             }

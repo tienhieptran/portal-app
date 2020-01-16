@@ -1,14 +1,9 @@
-﻿using System;
+﻿using BI_Project.Models.EntityModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using BI_Project.Models;
-using BI_Project.Models.EntityModels;
-using BI_Project.Models.UI;
 
 namespace BI_Project.Services.User
 {
-    public enum MenuTypes { HasAllLinkAndText, HasOnlyText, No2Show}
+    public enum MenuTypes { HasAllLinkAndText, HasOnlyText, No2Show }
     public class BlockDataMenuLeftModel
     {
         public List<EntityMenuModel> LstAllOfMenus { set; get; }
@@ -34,7 +29,7 @@ namespace BI_Project.Services.User
             bool found = false;
 
             if (EntityUserModel.IsAdmin == true) return true;
-            foreach(EntityMenuModel child in LstAllowedMenus)
+            foreach (EntityMenuModel child in LstAllowedMenus)
             {
                 if (child.LevelTree.Contains(menu.LevelTree + "@@@"))
                 {
@@ -50,7 +45,7 @@ namespace BI_Project.Services.User
 
         public MenuTypes Check2Show(EntityMenuModel menu)
         {
-            MenuTypes output= MenuTypes.HasAllLinkAndText;
+            MenuTypes output = MenuTypes.HasAllLinkAndText;
 
             //CHECK WHETHER THE USER HAS PERMISSION TO ACCESS THIS MENU
             if (this.EntityUserModel.LstSelectedMenu.Contains(menu.MenuId))

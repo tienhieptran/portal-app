@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using BI_Project.Services.User;
+﻿using BI_Project.Helpers;
+using BI_Project.Helpers.Utility;
 using BI_Project.Models.EntityModels;
 using BI_Project.Models.UI;
-using BI_Project.Helpers;
-using BI_Project.Helpers.Utility;
-using System.Text.RegularExpressions;
 using BI_Project.Services.Menus;
+using BI_Project.Services.User;
+using System;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Web.Mvc;
 
 namespace BI_Project.Controllers
 {
     public class UsersController : BaseController
     {
-        
+
         public ActionResult List()
         {
-            
-            if (Session["IsAdmin"] == null || (bool)Session["IsAdmin"]==false)
+
+            if (Session["IsAdmin"] == null || (bool)Session["IsAdmin"] == false)
             {
                 return RedirectToAction("Logout", "Home");
             }
@@ -29,7 +27,7 @@ namespace BI_Project.Controllers
 
 
             this.GetLanguage();
-            
+
 
             this.SetConnectionDB();
             UserServices services = new UserServices(this.DBConnection);
@@ -51,7 +49,7 @@ namespace BI_Project.Controllers
                 blockModel.DataModel = services.GetList((int)Session["DepartIdUserLogin"]);
             }
 
-            if (services.ERROR != null) FileHelper.SaveFile(services.ERROR, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + APIStringHelper.GenerateFileId()+".txt");
+            if (services.ERROR != null) FileHelper.SaveFile(services.ERROR, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + APIStringHelper.GenerateFileId() + ".txt");
 
             Logging.WriteToLog(this.GetType().ToString() + "-List()", LogType.Access);
             ViewData["BlockData"] = blockModel;
@@ -60,7 +58,7 @@ namespace BI_Project.Controllers
 
         public ActionResult Create()
         {
-            
+
             if (Session["IsAdmin"] == null || (bool)Session["IsAdmin"] == false)
             {
                 return RedirectToAction("Logout", "Home");
@@ -108,7 +106,7 @@ namespace BI_Project.Controllers
             blockModel.DataModel = model;
             ViewData["BlockData"] = blockModel;
 
-            if(roleServices.ERROR != null) FileHelper.SaveFile(roleServices.ERROR, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + BI_Project.Helpers.Utility.APIStringHelper.GenerateFileId() + ".txt");
+            if (roleServices.ERROR != null) FileHelper.SaveFile(roleServices.ERROR, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + BI_Project.Helpers.Utility.APIStringHelper.GenerateFileId() + ".txt");
             if (services.ERROR != null) FileHelper.SaveFile(services.ERROR, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + BI_Project.Helpers.Utility.APIStringHelper.GenerateFileId() + ".txt");
 
             return View("~/" + this.THEME_FOLDER + "/" + this.THEME_ACTIVE + "/index.cshtml");
@@ -124,7 +122,7 @@ namespace BI_Project.Controllers
                 return RedirectToAction("Logout", "Home");
             }
             string id = this.HttpContext.Request["id"];
-            Logging.WriteToLog(this.GetType().ToString() + "-delete(), id="+id, LogType.Access);
+            Logging.WriteToLog(this.GetType().ToString() + "-delete(), id=" + id, LogType.Access);
             int output = 0;
             try
             {
@@ -169,13 +167,13 @@ namespace BI_Project.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            if (Session["IsAdmin"]  == null || (bool)Session["IsAdmin"] == false)
+            if (Session["IsAdmin"] == null || (bool)Session["IsAdmin"] == false)
             {
                 return RedirectToAction("Logout", "Home");
             }
             ViewData["data_form"] = TempData["data"];
             // get language
-          
+
             this.GetLanguage();
 
             // validate du lieu
@@ -196,7 +194,7 @@ namespace BI_Project.Controllers
                 }
 
             }
-            if(model.Password != model.ConfirmPassword)
+            if (model.Password != model.ConfirmPassword)
             {
                 Session["msg_text"] = BlockLanguageModel.GetElementLang(this.LANGUAGE_OBJECT, "messages.block_user_create.error_password");
                 TempData["data"] = model;
@@ -239,7 +237,7 @@ namespace BI_Project.Controllers
             var checkUser = services.GetList();
             var UserEdit = checkUser.FirstOrDefault(x => x.UserId == model.UserId);
             EntityUserModel Usercheck = new EntityUserModel();
-            if(model.IsSuperAdmin == true)
+            if (model.IsSuperAdmin == true)
             {
                 var User = checkUser.FirstOrDefault(x => x.UserName == model.UserName && x.UserId != model.UserId);
                 Usercheck = User;
@@ -260,15 +258,15 @@ namespace BI_Project.Controllers
             int result = 0;
             if (UserEdit != null)
             {
-                 result = services.Create(model, UserEdit.Password, UserEdit.Salt);
+                result = services.Create(model, UserEdit.Password, UserEdit.Salt);
             }
             else
             {
-                 result = services.Create(model, p, s);
+                result = services.Create(model, p, s);
             }
 
 
-            if(services.ERROR!=null) FileHelper.SaveFile(new { data = model, ERROR = services.ERROR }, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + APIStringHelper.GenerateFileId() + ".txt");
+            if (services.ERROR != null) FileHelper.SaveFile(new { data = model, ERROR = services.ERROR }, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + APIStringHelper.GenerateFileId() + ".txt");
             //**************** GET LANGUAGE AND MESSAGE******************************************************************
             //this.GetLanguage();
 
@@ -278,13 +276,13 @@ namespace BI_Project.Controllers
             }
             else
             {
-               Session["msg_text"] = BlockLanguageModel.GetElementLang(this.LANGUAGE_OBJECT, "messages.block_user_create.error_business_1");
+                Session["msg_text"] = BlockLanguageModel.GetElementLang(this.LANGUAGE_OBJECT, "messages.block_user_create.error_business_1");
             }
-            
+
             Session["msg_code"] = result;
             if (model.UserId > 0 && result > 1)
             {
-                Session["msg_text"] = BlockLanguageModel.GetElementLang(this.LANGUAGE_OBJECT,"messages.block_user_create.success_edit");
+                Session["msg_text"] = BlockLanguageModel.GetElementLang(this.LANGUAGE_OBJECT, "messages.block_user_create.success_edit");
             }
             //***********************INSERT OR EDIT SUCCESSFULLY * *************************************************
             if (result > 0)
@@ -319,7 +317,7 @@ namespace BI_Project.Controllers
         public ActionResult ChangePassword()
         {
             Logging.WriteToLog(this.GetType().ToString() + "-changepww()", LogType.Access);
-            if (Session[this.SESSION_NAME_USERID] == null )
+            if (Session[this.SESSION_NAME_USERID] == null)
             {
                 return RedirectToAction("Logout", "Home");
             }
@@ -334,7 +332,7 @@ namespace BI_Project.Controllers
             BlockLangUserChangepwModel blockLang = new BlockLangUserChangepwModel();
             BI_Project.Models.UI.BlockModel blockModel = new Models.UI.BlockModel("block_user_changepw", this.LANGUAGE_OBJECT, blockLang);
             //blockModel.DataModel = ViewData["block_menu_left_data"];
-            
+
             ViewData["BlockData"] = blockModel;
             return View("~/" + this.THEME_FOLDER + "/" + this.THEME_ACTIVE + "/index.cshtml");
         }
@@ -355,7 +353,7 @@ namespace BI_Project.Controllers
             this.SetCommonData();
             this.GetLanguage();
             BlockLangUserChangepwModel blockLang = new BlockLangUserChangepwModel();
-            
+
             if (model.ConfirmPassword != model.Password)
             {
                 Session["msg_text"] = blockLang.GetLangByPath("messages.block_user_changepw.not_equalto", this.LANGUAGE_OBJECT);
@@ -370,7 +368,7 @@ namespace BI_Project.Controllers
             int output = services.ChangePw(model);
             this.ERRORS = services.ERROR;
             if (services.ERROR != null) FileHelper.SaveFile(new { data = model, ERROR = services.ERROR }, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + APIStringHelper.GenerateFileId() + ".txt");
-            
+
             if (output == model.UserId)
             {
                 Session["msg_text"] = blockLang.GetLangByPath("messages.block_user_changepw.success", this.LANGUAGE_OBJECT);

@@ -104,11 +104,17 @@
       <title>Danh sách đơn vị</title>
     </department_list>
     <department_create>
-      <title>Thêm mới đơn vị</title>
+      <title>Thêm mới đơn vị</title>G
     </department_create>
     <department_edit>
       <title>Sửa thông tin đơn vị</title>
     </department_edit>
+    <dnt_upload>
+      <title>Điện nông thôn</title>
+    </dnt_upload>
+    <dnt_create>
+      <title>Thêm mới</title>
+    </dnt_create>
     <Embed_Tableau>
       <title>BÁO CÁO QUẢN TRỊ ĐIỀU HÀNH</title>
     </Embed_Tableau>
@@ -330,6 +336,15 @@
       <ConfirmPassword>Nhập lại mật khẩu mới</ConfirmPassword>
       <BtnSubmit>Ghi</BtnSubmit>
     </block_user_changepw>
+
+
+    <block_dnt_upload>
+      <title>Cập nhật Điện nông thôn</title>
+      <Month>Tháng</Month>
+      <Year>Năm</Year>
+      <Search>Tìm kiếm</Search>
+      <File>Chọn File</File>
+    </block_dnt_upload>
     
     <block_user_create>
       <title> Tạo mới người dùng</title>

@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Configuration;
-using Newtonsoft.Json.Linq;
-using BI_Project.Services.User;
-using BI_Project.Models.UI;
-using BI_Project.Helpers;
-using BI_Project.Services.Menus;
+﻿using BI_Project.Helpers;
 using BI_Project.Models.EntityModels;
+using BI_Project.Models.UI;
+using BI_Project.Services.Menus;
+using BI_Project.Services.User;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Web.Configuration;
+using System.Web.Mvc;
 
 namespace BI_Project.Controllers
 {
-    public class BaseController:Controller
+    public class BaseController : Controller
     {
         public string SESSION_LANGUAGE_NAME { set; get; }
-        
+
 
         public string LANGUAGE_FOLDER { set; get; }
         public string LANGUAGE { set; get; }
@@ -48,10 +45,10 @@ namespace BI_Project.Controllers
         {
             //DBConnection = new Services.DBConnection();
             this.SetProperty();
-           // this.GetLanguage();
+            // this.GetLanguage();
         }
 
-        private void SetProperty ()
+        private void SetProperty()
         {
             this.CONNECT_STRING_STAGING = WebConfigurationManager.AppSettings["CONNECT_STRING_STAGING"];
             this.CONNECTION_STRING = WebConfigurationManager.AppSettings["CONNECT_STRING"];
@@ -72,10 +69,10 @@ namespace BI_Project.Controllers
                 this.LANGUAGE = "vi";
                 Session[this.SESSION_LANGUAGE_NAME] = this.LANGUAGE;
             }
-            
+
             else this.LANGUAGE = Session[this.SESSION_LANGUAGE_NAME].ToString();
 
-            this.LANGUAGE_OBJECT = BI_Project.Helpers.Utility.JTokenHelper.GetLanguage("~/"+this.LANGUAGE_FOLDER, this.LANGUAGE);
+            this.LANGUAGE_OBJECT = BI_Project.Helpers.Utility.JTokenHelper.GetLanguage("~/" + this.LANGUAGE_FOLDER, this.LANGUAGE);
             ViewData["VIEWDATA_LANGUAGE"] = this.LANGUAGE_OBJECT;
         }
 
@@ -102,7 +99,7 @@ namespace BI_Project.Controllers
             UserServices userServices = new UserServices(DBConnection);
 
             EntityUserModel currentUser = userServices.GetEntityById((int)Session[SESSION_NAME_USERID]);
-            
+
             ViewData["block_menu_left_data"] = userServices.GetListMenus(currentUser);
             var it = ViewData["block_menu_left_data"];
             MenuServices menuServices = new MenuServices(DBConnection);
@@ -113,7 +110,7 @@ namespace BI_Project.Controllers
 
         }
 
-        
+
         public void SetMessageText(BlockLanguageModel blockLanguage)
         {
             //string output = null;
@@ -128,7 +125,7 @@ namespace BI_Project.Controllers
                     Session.Remove("msgtype");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -139,7 +136,7 @@ namespace BI_Project.Controllers
         {
             bool hasPermission = true;
 
-            if( !hasPermission )
+            if (!hasPermission)
             {
                 return RedirectToAction("Home", "Logout");
             }
@@ -151,7 +148,7 @@ namespace BI_Project.Controllers
             if (Session["IsAdmin"] == null || (bool)Session["IsAdmin"] == false)
             {
                 //RedirectToAction("Logout", "Home");
-                Server.Transfer("Home/Logout"); 
+                Server.Transfer("Home/Logout");
                 return Content("<script>window.location = 'http://www.example.com';</script>");
             }
             return Content("");
@@ -160,7 +157,7 @@ namespace BI_Project.Controllers
 
         public void SaveAccessLog(string functionname)
         {
-            Logging.WriteToLog(this.GetType().ToString() + "-"+functionname, LogType.Access);
+            Logging.WriteToLog(this.GetType().ToString() + "-" + functionname, LogType.Access);
         }
     }
 }

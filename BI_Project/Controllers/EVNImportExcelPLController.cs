@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Configuration;
-using System.IO;
-
-using BI_Project.Services.Importers;
-using BI_Project.Models.EntityModels;
-using BI_Project.Models.UI;
+﻿using BI_Project.Controllers;
 using BI_Project.Helpers;
 using BI_Project.Helpers.Utility;
-using BI_Project.Controllers;
+using BI_Project.Models.UI;
+using BI_Project.Services.Importers;
+using bicen.Services.Importers;
 using DemoData;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web.Configuration;
+using System.Web.Mvc;
 
 namespace bicen.Controllers
 {
@@ -223,7 +222,7 @@ namespace bicen.Controllers
             }
             string id = this.HttpContext.Request["treeId"];
             string fileName = this.HttpContext.Request["fileUpload"];
-            Logging.WriteToLog(this.GetType().ToString() + "-delete(), id=" + id+", file name = "+ fileName, LogType.Access);
+            Logging.WriteToLog(this.GetType().ToString() + "-delete(), id=" + id + ", file name = " + fileName, LogType.Access);
             int output = 0;
             try
             {
@@ -251,54 +250,21 @@ namespace bicen.Controllers
             return View();
         }
 
-        [HttpGet]
-        public JsonResult GetDataRow(string sidx, string sord, int page, int rows)
-        {
-            this.SetConnectionDB();
-            EVNImporterServices services = new EVNImporterServices(oracleConnection, DBConnection);
-            var data = services.GetList_DNT_QMKLTN_HA1820();
-            int pageIndex = Convert.ToInt32(page) - 1;
-            int pageSize = rows;
-            int totalRecords = data.Count();
-            int totalPages = (int)Math.Ceiling((float)totalRecords / (float)pageSize);
-
-            var json = data.OrderBy(x => x.MA_DVIQLY)
-                         .Skip(pageSize * (page - 1))
-                         .Take(pageSize).ToList();
-
-            var jsonData = new
-            {
-                total = totalPages,
-                page = page,
-                records = totalRecords,
-                rows = json
-            };
-
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
-        }
-
-
-        public JsonResult GetRows()
-        {
-            this.SetConnectionDB();
-            EVNImporterServices services = new EVNImporterServices(oracleConnection, DBConnection);
-            var data = services.GetList_DNT_QMKLTN_HA1820();
-
-
-            return Json(data, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult GetProducts(string sidx, string sord, int page, int rows)
+        [HttpPost]
+        public ActionResult GetDataRows(string sidx, string sord, int page, int rows, int year, int month, int file)
         {
             var products = Product.GetSampleProducts();
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
             int totalRecords = products.Count();
             int totalPages = (int)Math.Ceiling((float)totalRecords / (float)pageSize);
+            int uploadYear = year;
+            int uploadMonth = month;
+            int uploadFile = file;
 
-            var data = products.OrderBy(x => x.Id)
-                         .Skip(pageSize * (page - 1))
-                         .Take(pageSize).ToList();
+            //var data = products.OrderBy(x => x.Id)
+            //             .Skip(pageSize * (page - 1))
+            //             .Take(pageSize).ToList();
 
             this.SetConnectionDB();
             EVNImporterServices services = new EVNImporterServices(oracleConnection, DBConnection);
@@ -313,6 +279,83 @@ namespace bicen.Controllers
             };
 
             return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetDataRowById(string id)
+        {
+
+            this.SetConnectionDB();
+            EVNImporterServices services = new EVNImporterServices(oracleConnection, DBConnection);
+            var rows = services.GetList_DNT_QMKLTN_HA1820().Where(x => x.MA_DVIQLY == id);
+
+            if (rows != null)
+            {
+                DNT_QMKLTN_HA1820 model = new DNT_QMKLTN_HA1820();
+
+                foreach (var item in rows)
+                {
+                    model.MA_DVIQLY = item.MA_DVIQLY;
+                    model.TEN_CTRINH = item.TEN_CTRINH;
+                    model.THANG_BC = item.THANG_BC;
+                    model.NAM_BC = item.NAM_BC;
+                    model.SL_XA = item.SL_XA;
+                    model.SL_TCBD = item.SL_TCBD;
+                    model.MA_DVIQLY = item.MA_DVIQLY;
+                    model.DZ_HTHE = item.DZ_HTHE;
+                    model.SO_HOTN = item.SO_HOTN;
+                    model.GTCL_VVNSNN = item.GTCL_VVNSNN;
+                    model.GTCL_VV = item.GTCL_VV;
+                    model.GTCL_VDTHTX = item.GTCL_VDTHTX;
+                    model.GTCL_VDAN = item.GTCL_VDAN;
+                    model.GTCL_VKHAC = item.GTCL_VKHAC;
+                    model.CPHI_TNCT = item.CPHI_TNCT;
+                }
+
+                return PartialView("_GridEditPartial", model);
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult AddDNTData()
+        {
+            if (Session["IsAdmin"] == null || (bool)Session["IsAdmin"] == false)
+            {
+                return RedirectToAction("Logout", "Home");
+            }
+            this.SetCommonData();
+            this.GetLanguage();
+
+            ViewData["pagename"] = "dnt_upload";
+            ViewData["action_block"] = "EVNImportExcelPL/EVNPL_block_upload_dnt";
+
+            BlockLangRowUploadModel blockLang = new BlockLangRowUploadModel();
+            BI_Project.Models.UI.BlockModel blockModel = new BlockModel("block_dnt_upload", this.LANGUAGE_OBJECT, blockLang);
+            BlockDataRowUploadModel blockData = new BlockDataRowUploadModel();
+            blockModel.DataModel = blockData;
+
+            ViewData["BlockData"] = blockModel;
+            return View("~/" + this.THEME_FOLDER + "/" + this.THEME_ACTIVE + "/index.cshtml");
+        }
+
+        [HttpPost]
+        [CheckUserMenus]
+        public ActionResult UploadTableData(BlockDataRowUploadModel model)
+        {
+            if (null == Session[this.SESSION_NAME_USERID])
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if (Session["IsAdmin"] == null || (bool)Session["IsAdmin"] == false)
+            {
+                return RedirectToAction("Logout", "Home");
+            }
+            List<DNT_QMKLTN_HA1820> lst = new List<DNT_QMKLTN_HA1820>();
+
+            lst = JsonConvert.DeserializeAnonymousType(model.DataString, lst);
+
+            return RedirectToAction("AddDNTData");
         }
     }
 }

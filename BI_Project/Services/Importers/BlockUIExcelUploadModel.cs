@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using BI_Project.Models.EntityModels;
-namespace BI_Project.Services.Importers
+﻿namespace BI_Project.Services.Importers
 {
     public class BlockUIExcelUploadModel
     {
-        
-        
+
+
 
         public BlockUIExcelUploadModel()
         {
-        
+
         }
 
         public int CurrentPage { set; get; }
@@ -23,6 +18,6 @@ namespace BI_Project.Services.Importers
 
         public int Year { set; get; }
 
-        
+
     }
 }

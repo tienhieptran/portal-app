@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using BI_Project.Models.UI;
+﻿using BI_Project.Models.UI;
 namespace BI_Project.Services.Roles
 {
-    public class BlockLangRoleCreateModel: BlockLanguageModel
+    public class BlockLangRoleCreateModel : BlockLanguageModel
     {
         public string LblDescription { set; get; }
         public string Lblname { set; get; }
         public string title_edit { set; get; }
 
         public string BtnSubmit { set; get; }
-        
+
         public string LblMenus { set; get; }
         public string Departments { get; set; }
         public override void SetLanguage(object languageObject)

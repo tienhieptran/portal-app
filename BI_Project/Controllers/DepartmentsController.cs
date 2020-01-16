@@ -4,9 +4,6 @@ using BI_Project.Models.EntityModels;
 using BI_Project.Models.UI;
 using BI_Project.Services.Departments;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BI_Project.Controllers
@@ -128,7 +125,7 @@ namespace BI_Project.Controllers
                 TempData["data"] = model;
                 return RedirectToAction("Create");
             }
-            if(model.Filter01.Length == 1)
+            if (model.Filter01.Length == 1)
             {
                 model.Code = model.Filter01.Substring(0, 1);
             }

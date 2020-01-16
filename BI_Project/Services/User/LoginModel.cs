@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace BI_Project.Services.User
+﻿namespace BI_Project.Services.User
 {
     public class LoginModel
     {

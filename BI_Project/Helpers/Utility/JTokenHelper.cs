@@ -1,20 +1,19 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json.Linq;
 using System.Xml;
-using System.Xml.XPath;
 
 namespace BI_Project.Helpers.Utility
 {
     public static class JTokenHelper
     {
-        
+
 
         public static JObject GetLanguage(string folderpath, string langName)
         {
             string fullXMLFilePath = folderpath + "/" + langName + ".xml";
-            fullXMLFilePath=  System.Web.Hosting.HostingEnvironment.MapPath(fullXMLFilePath);
+            fullXMLFilePath = System.Web.Hosting.HostingEnvironment.MapPath(fullXMLFilePath);
 
             JObject output = null;
 
@@ -45,14 +44,14 @@ namespace BI_Project.Helpers.Utility
         /// <param name="object_name">name of block as block_login</param>
         /// <param name="element_name">example title, the leaf element, that return string value </param>
         /// <returns></returns>
-        public static string GetElementLanguage(JObject language, string objectType, string object_name, string element_name )
+        public static string GetElementLanguage(JObject language, string objectType, string object_name, string element_name)
         {
             string output = "";
             try
             {
                 output = language.SelectToken("$.roots.." + objectType + ".." + object_name + ".." + element_name).Value<string>();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 output = ex.ToString();
             }
@@ -105,7 +104,7 @@ namespace BI_Project.Helpers.Utility
             JObject jobject = (JObject)jObject;
             output = jobject.SelectTokens(path).ToList<JToken>();
             output = ((JToken)output[0]).ToList<JToken>();
-            
+
             return output;
         }
 
@@ -125,7 +124,7 @@ namespace BI_Project.Helpers.Utility
 
         }
 
-        public static JObject GetActiveJObject(JObject jObject,string elementPath)
+        public static JObject GetActiveJObject(JObject jObject, string elementPath)
         {
             JObject output = null;
 

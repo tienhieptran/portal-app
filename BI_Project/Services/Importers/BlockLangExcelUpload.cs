@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
+﻿
 using BI_Project.Models.UI;
 namespace BI_Project.Services.Importers
 {
@@ -13,7 +9,7 @@ namespace BI_Project.Services.Importers
         public string Uploadedtime { set; get; }
         public string Uploadmonth { set; get; }
         public string Uploadyear { set; get; }
-        public string Dowload    { set; get; }
+        public string Dowload { set; get; }
         public string Delete { set; get; }
         public string LBLConfirmDelete { set; get; }
         public string Page_next { set; get; }
@@ -27,7 +23,7 @@ namespace BI_Project.Services.Importers
         public string PerPage { set; get; }
         public string Year { set; get; }
         public string Month { set; get; }
-        
+
         public string Search { set; get; }
 
         public string NumberInsertedRow { set; get; }

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Configuration;
-using System.IO;
-
-using BI_Project.Services.Importers;
-using BI_Project.Models.EntityModels;
-using BI_Project.Models.UI;
-using BI_Project.Helpers;
+﻿using BI_Project.Helpers;
 using BI_Project.Helpers.Utility;
+using BI_Project.Models.UI;
+using BI_Project.Services.Importers;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Web.Configuration;
+using System.Web.Mvc;
 
 namespace BI_Project.Controllers
 {
@@ -18,8 +14,8 @@ namespace BI_Project.Controllers
     {
         public string EXCEL_UPLOAD_FOLDER { set; get; }
 
-        
-        public ImportExcelController():base()
+
+        public ImportExcelController() : base()
         {
             this.EXCEL_UPLOAD_FOLDER = WebConfigurationManager.AppSettings["EXCEL_UPLOAD_FOLDER"];
             //this.DBConnection.ConnectString = this.CONNECT_STRING_STAGING;
@@ -29,21 +25,21 @@ namespace BI_Project.Controllers
         [CheckUserMenus]
         public ActionResult Index(string id)
         {
-            int noPages =0 , noRecords = 0;
+            int noPages = 0, noRecords = 0;
             BlockUIExcelUploadModel uiModel = new BlockUIExcelUploadModel();
             try
             {
-                uiModel.CurrentPage = Int32.Parse( Request.Params["page"]);
-                
+                uiModel.CurrentPage = Int32.Parse(Request.Params["page"]);
+
             }
-            catch(Exception)
+            catch (Exception)
             {
                 uiModel.CurrentPage = 1;
             }
-            
-            
+
+
             this.CheckPermission();
-            
+
             ViewData["pagename"] = "upload_excel";
             ViewData["action_block"] = "Excels/block_upload_excel";
             this.SetCommonData();
@@ -56,7 +52,7 @@ namespace BI_Project.Controllers
             pageModel.Title = pageModel.GetElementByPath("page_excel.menu" + id + ".title");
             ViewData["page_model"] = pageModel;
 
-            
+
             BlockLangExcelUpload blockLang = new BlockLangExcelUpload();
             BI_Project.Models.UI.BlockModel blockModel = new Models.UI.BlockModel("block_upload_excel", this.LANGUAGE_OBJECT, blockLang);
             BlockDataExcelUploadModel blockData = new BlockDataExcelUploadModel();
@@ -68,14 +64,14 @@ namespace BI_Project.Controllers
             blockData.Note = BI_Project.Helpers.Utility.JTokenHelper.GetElementValue(xmlConfigFilePath, "excel_source.Note.#cdata-section");
             ImporterServices services = new ImporterServices(this.DBConnection);
 
-            blockData.ListHistory = services.GetHistoryList(uiModel.CurrentPage, uiModel.PerPage, id,ref noPages,ref noRecords,uiModel.Month,uiModel.Year);
+            blockData.ListHistory = services.GetHistoryList(uiModel.CurrentPage, uiModel.PerPage, id, ref noPages, ref noRecords, uiModel.Month, uiModel.Year);
             blockData.NumberPages = noPages;
             blockData.NumberRecords = noPages;
             blockData.CurrentPage = uiModel.CurrentPage;
             blockData.FolderUpload = pageModel.GetElementByPath("page_excel.menu" + id + ".UploadedDirectory");
             blockModel.DataModel = blockData;
             //blockModel.DataModel = ViewData["block_menu_left_data"];
-            if(services.ERROR != null) FileHelper.SaveFile(services.ERROR , this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + APIStringHelper.GenerateFileId() + ".txt");
+            if (services.ERROR != null) FileHelper.SaveFile(services.ERROR, this.LOG_FOLDER + "/ERROR_" + this.GetType().ToString() + APIStringHelper.GenerateFileId() + ".txt");
 
             ViewData["BlockData"] = blockModel;
 
@@ -86,7 +82,7 @@ namespace BI_Project.Controllers
         public ActionResult Index(string id, BlockDataExcelUploadModel uiModel)
         {
             int noPages = 0, noRecords = 0;
-            
+
             try
             {
                 uiModel.CurrentPage = Int32.Parse(Request.Params["page"]);
@@ -122,7 +118,7 @@ namespace BI_Project.Controllers
             string xmlConfigFilePath = this.CONFIG_FOLDER + "\\excel_format_" + uiModel.PermissionID.ToString() + ".xml";
             uiModel.HelpDoc = BI_Project.Helpers.Utility.JTokenHelper.GetElementValue(xmlConfigFilePath, "excel_source.HelpDocumentPath");
 
-            uiModel.ListHistory = services.GetHistoryList(uiModel.CurrentPage, uiModel.PerPage, id, ref noPages, ref noRecords,uiModel.Month,uiModel.Year);
+            uiModel.ListHistory = services.GetHistoryList(uiModel.CurrentPage, uiModel.PerPage, id, ref noPages, ref noRecords, uiModel.Month, uiModel.Year);
             uiModel.NumberPages = noPages;
             uiModel.NumberRecords = noPages;
             uiModel.CurrentPage = uiModel.CurrentPage;

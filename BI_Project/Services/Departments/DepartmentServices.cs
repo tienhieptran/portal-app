@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace BI_Project.Services.Departments
 {
@@ -119,7 +117,7 @@ namespace BI_Project.Services.Departments
                 DataTable table1 = dataSet.Tables[0];
                 foreach (DataRow row in table1.Rows)
                 {
-                    output.Name = row["Name"].ToString();                  
+                    output.Name = row["Name"].ToString();
                     output.DepartId = Int32.Parse(row["Id"].ToString());
                     output.Filter01 = row["Filter01"].ToString();
                     output.Code = row["Code"].ToString();
@@ -174,7 +172,7 @@ namespace BI_Project.Services.Departments
                         dicParas.Add("DepartId", departModel.DepartId);
                         output = DBConnection.ExecSPNonQuery("SP_DEPARTMENT_UPDATE", dicParas, ref dicParaOuts, true);
                     }
-                }               
+                }
             }
             catch (Exception ex)
             {
@@ -197,7 +195,7 @@ namespace BI_Project.Services.Departments
 
             try
             {
-                
+
                 DBConnection.OpenDBConnect();
                 //STEP1:  ***************************************************************/
 

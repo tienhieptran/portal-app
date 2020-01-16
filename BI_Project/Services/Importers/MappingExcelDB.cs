@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Data.SqlClient;
 
 namespace BI_Project.Services.Importers
 {
@@ -37,21 +33,21 @@ namespace BI_Project.Services.Importers
                     switch (Datatype)
                     {
                         case "int":
-                            
+
                             _value = Convert.ToInt32(value.ToString());
                             break;
                         case "float":
-                            
+
                             _value = Convert.ToDecimal(value.ToString());
                             break;
                         default:
-                            
+
                             _value = value;
                             break;
                     }
-                    
-                    
-                    
+
+
+
 
                 }
                 catch (Exception ex)
@@ -75,7 +71,7 @@ namespace BI_Project.Services.Importers
 
         //            if (Datatype == "int") return Int32.Parse(data);
         //            if (Datatype == "float") return float.Parse(data);
-                    
+
 
         //        }
         //        catch (Exception)
@@ -84,11 +80,11 @@ namespace BI_Project.Services.Importers
         //        }
 
         //        return data;
-           
+
 
         //}
 
 
-        
+
     }
 }

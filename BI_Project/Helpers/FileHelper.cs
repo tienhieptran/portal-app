@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
-using Newtonsoft.Json;
 
 namespace BI_Project.Helpers
 {
@@ -22,7 +20,7 @@ namespace BI_Project.Helpers
             string json = JsonConvert.SerializeObject(content, Formatting.Indented);
             string currentTime = JsonConvert.SerializeObject(new { Datetime = DateTime.Now }, Formatting.Indented);
             File.WriteAllText(fileName, currentTime);
-            File.WriteAllText(fileName, json);            
+            File.WriteAllText(fileName, json);
             return;
         }
 

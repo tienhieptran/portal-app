@@ -1,18 +1,14 @@
-﻿using System;
+﻿using BI_Project.Models.EntityModels;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using BI_Project.Models.EntityModels;
-using BI_Project.Helpers.Security;
-using System.Data.SqlClient;
-
 using System.Data;
+using System.Data.SqlClient;
 namespace BI_Project.Services.Roles
 {
     public class RoleServices : DBBaseService
     {
         private static string USP_GET_ROLES_BY_ORGID = "usp_Get_Roles_By_OrgId";
-        public RoleServices(DBConnection dBConnection):base(dBConnection)
+        public RoleServices(DBConnection dBConnection) : base(dBConnection)
         {
 
         }
@@ -27,11 +23,11 @@ namespace BI_Project.Services.Roles
                 strLstOfMenuIds = model.StrAllowedMenus;
                 DBConnection.OpenDBConnect();
                 //STEP1:  ***************************************************************/
-                
+
 
                 Dictionary<string, object> dicParas = new Dictionary<string, object>();
                 Dictionary<string, object> dicParaOuts = new Dictionary<string, object>();
-                if(model.Name != null && model.Description != null && strLstOfMenuIds != null)
+                if (model.Name != null && model.Description != null && strLstOfMenuIds != null)
                 {
                     dicParas.Add("Name", model.Name);
                     //dicParas.Add("Description", model.Description);
@@ -47,11 +43,11 @@ namespace BI_Project.Services.Roles
                         output = DBConnection.ExecSPNonQuery("SP_ROLE_UPDATE", dicParas, ref dicParaOuts, true);
                     }
                 }
-                
+
                 //STEP2:  ***************************************************************/
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.ERROR = ex.ToString();
                 output = -1;
@@ -60,7 +56,7 @@ namespace BI_Project.Services.Roles
             {
                 DBConnection.CloseDBConnect();
             }
-            
+
 
             return output;
         }
@@ -84,10 +80,10 @@ namespace BI_Project.Services.Roles
                 Dictionary<string, object> dicParas = new Dictionary<string, object>();
                 Dictionary<string, object> dicParaOuts = new Dictionary<string, object>();
                 dicParas.Add("ROLEID", id);
-                
-                    //dicParas.Add("")
-                    output = DBConnection.ExecSPNonQuery("SP_ROLE_DELETE", dicParas, ref dicParaOuts, true);
-                
+
+                //dicParas.Add("")
+                output = DBConnection.ExecSPNonQuery("SP_ROLE_DELETE", dicParas, ref dicParaOuts, true);
+
                 //STEP2:  ***************************************************************/
 
             }
@@ -108,7 +104,7 @@ namespace BI_Project.Services.Roles
 
         public List<EntityRoleModel> GetList(int? deptId = null)
         {
-            List<EntityRoleModel> output = new  List<EntityRoleModel>();
+            List<EntityRoleModel> output = new List<EntityRoleModel>();
             this.DBConnection.OpenDBConnect();
             if (this.DBConnection.ERROR != null)
             {
@@ -145,7 +141,7 @@ namespace BI_Project.Services.Roles
 
             }
             catch (Exception ex)
-            { 
+            {
                 this.ERROR = ex.ToString();
             }
             finally
@@ -169,7 +165,7 @@ namespace BI_Project.Services.Roles
                 DBConnection.command.Parameters.Clear();
                 DBConnection.command.CommandText = USP_GET_ROLES_BY_ORGID;
                 DBConnection.command.CommandType = CommandType.StoredProcedure;
-                DBConnection.command.Parameters.AddWithValue("@deptID",deptId);
+                DBConnection.command.Parameters.AddWithValue("@deptID", deptId);
 
 
 
@@ -216,26 +212,26 @@ namespace BI_Project.Services.Roles
                 Dictionary<string, object> dicParas = new Dictionary<string, object>();
                 Dictionary<string, object> dicParaOuts = new Dictionary<string, object>();
                 dicParas.Add("ROLEID", id);
-                DataSet dataSet  = DBConnection.ExecSelectSP("SP_ROLE_GET_BY_ID", dicParas, ref dicParaOuts, true);
+                DataSet dataSet = DBConnection.ExecSelectSP("SP_ROLE_GET_BY_ID", dicParas, ref dicParaOuts, true);
                 //**********************TABLE: ROLE***************************************
                 DataTable table1 = dataSet.Tables[0];
                 foreach (DataRow row in table1.Rows)
                 {
                     output.Name = row["Name"].ToString();
                     output.Description = row["Description"].ToString();
-                    output.RoleId = Int32.Parse( row["RoleId"].ToString());
+                    output.RoleId = Int32.Parse(row["RoleId"].ToString());
                     output.DeptID = Int32.Parse(row["DepartId"].ToString());
                 }
                 //**********************TABLE: ROLEMENU ***********************************************
                 DataTable table2 = dataSet.Tables[1];
 
-                foreach(DataRow row in table2.Rows)
+                foreach (DataRow row in table2.Rows)
                 {
                     output.ListRoleMenus.Add(Int32.Parse(row["menuid"].ToString()));
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.ERROR = ex.ToString();
             }
@@ -246,6 +242,6 @@ namespace BI_Project.Services.Roles
             return output;
         }
 
-        
+
     }
 }

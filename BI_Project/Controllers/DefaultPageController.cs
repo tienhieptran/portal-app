@@ -1,9 +1,5 @@
 ﻿using BI_Project.Controllers;
 using BI_SUN.Services.SetDefaultPage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace bicen.Controllers

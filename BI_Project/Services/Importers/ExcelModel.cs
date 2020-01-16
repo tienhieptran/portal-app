@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace BI_Project.Services.Importers
 {
@@ -14,16 +11,16 @@ namespace BI_Project.Services.Importers
         }
         public List<MappingExcelDB> DBLstColumns
         {
-            set;get;
+            set; get;
         }
-        public Dictionary<string,XMLParaModel> XmlParas
+        public Dictionary<string, XMLParaModel> XmlParas
         {
-            set;get;
+            set; get;
         }
 
         public string FolderHelpDocumentPath
         {
-            set;get;
+            set; get;
         }
 
         public string FolderFileNativeName { set; get; }

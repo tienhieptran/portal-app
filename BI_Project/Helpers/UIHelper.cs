@@ -1,16 +1,13 @@
-﻿using System;
+﻿using BI_Project.Models.EntityModels;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
-using BI_Project.Models.EntityModels;
 using System.Text.RegularExpressions;
 namespace BI_Project.Helpers
 {
     public static class UIHelper
     {
 
-        public static string GeneralTreeFantacy( string baseUrl,Dictionary<string,string> dicExtraClass,List<EntityMenuModel> lstMenus, List<int> lstAllowedMenus  )
+        public static string GeneralTreeFantacy(string baseUrl, Dictionary<string, string> dicExtraClass, List<EntityMenuModel> lstMenus, List<int> lstAllowedMenus)
         {
             string output = "";
 
@@ -37,7 +34,7 @@ namespace BI_Project.Helpers
 
                 string[] lstLevel = Regex.Split(menu.LevelTree + "@@@abc", "@@@");
                 currentLevel = lstLevel.Length - 1;
-                int gap =  currentLevel - beforelevel;
+                int gap = currentLevel - beforelevel;
                 //WHEN NEXT TO SUB MENU 
                 if (gap > 0)
                 {
@@ -52,27 +49,27 @@ namespace BI_Project.Helpers
 
                 textMenus[i]["open_li"] = li_open + " class ='icon_" + menu.MenuId.ToString() + "' id='" + menu.MenuId + "'" + " >";
                 if (lstAllowedMenus.Contains(menu.MenuId)) textMenus[i]["open_li"] = li_open + " class ='selected icon_" + menu.MenuId.ToString() + "' id='" + menu.MenuId + "'" + " >";
-               
+
                 textMenus[i]["a_open"] = a_open;
                 textMenus[i]["a_text"] = a_text;
-               
-                if(gap == 0 && i>0)
-                {
-                    textMenus[i-1]["close_li"] = li_close;
-                   // textMenus[i]["close_li"] = li_close;
-                }
-                
 
-                
+                if (gap == 0 && i > 0)
+                {
+                    textMenus[i - 1]["close_li"] = li_close;
+                    // textMenus[i]["close_li"] = li_close;
+                }
+
+
+
                 if (gap < 0)
                 {
-                    textMenus[i-1 ]["close_li"] = "";
+                    textMenus[i - 1]["close_li"] = "";
                     while (gap < 0)
                     {
-                        textMenus[i-1]["close_li"] += "</li></ul>";
-                        gap ++;
+                        textMenus[i - 1]["close_li"] += "</li></ul>";
+                        gap++;
                     }
-                    textMenus[i-1]["close_li"] += "</li>";
+                    textMenus[i - 1]["close_li"] += "</li>";
                 }
 
 
@@ -103,14 +100,14 @@ namespace BI_Project.Helpers
                 {
                     strMenus += menuItem["ul_close"];
                 }
-                strMenus += menuItem["open_li"] ;
+                strMenus += menuItem["open_li"];
 
                 if (baseUrl != "")
                 {
                     strMenus += menuItem["a_open"] + i_tag + "<span   style = 'display: flex;text - overflow: ellipsis;'> " + menuItem["a_text"] + "</span>" + "</a>";
                 }
                 else strMenus += "<span>" + menuItem["a_text"] + "</span>";
-                
+
                 if (menuItem.Keys.Contains<string>("ul_open"))
                 {
                     strMenus += menuItem["ul_open"];
@@ -121,7 +118,7 @@ namespace BI_Project.Helpers
                 }
 
             }
-            output += strMenus+ "";
+            output += strMenus + "";
 
             //string inputTagHtml = " <input type='hidden' id ='" + inputagName + "' name='" + inputagName + "' value='";
             //foreach(int menuSelected in lstAllowedMenus)
@@ -131,7 +128,7 @@ namespace BI_Project.Helpers
             //inputTagHtml = inputTagHtml.TrimEnd(',') +"' />" ;
             //inputagName = inputTagHtml;
 
-            return output; 
+            return output;
 
         }
         public static string GeneralTreeFantacy(string baseUrl, string url, Dictionary<string, string> dicExtraClass, List<EntityMenuModel> lstMenus, List<int> lstAllowedMenus)
@@ -289,19 +286,19 @@ namespace BI_Project.Helpers
 
 
 
-        public static string GeneralUISelectTag(List<BI_Project.Models.EntityModels.EntityMenuModel> lstMenus, Dictionary<string,string> dicExtraClass)
+        public static string GeneralUISelectTag(List<BI_Project.Models.EntityModels.EntityMenuModel> lstMenus, Dictionary<string, string> dicExtraClass)
         {
             string output = "";
             int beforelevel = 1, currentLevel = 1, i = 0;
-            
+
 
             string optgroup_open = "<optgroup  style='font - weight:bold; font - size:14px' label=",
-                option_open = "<option ", option_close = "</option>", optgroup_close= "</optgroup>";
+                option_open = "<option ", option_close = "</option>", optgroup_close = "</optgroup>";
             string strMenus = "";
 
 
 
-            
+
             List<Dictionary<string, string>> textMenus = new List<Dictionary<string, string>>();
 
             foreach (EntityMenuModel menu in lstMenus)
@@ -309,7 +306,7 @@ namespace BI_Project.Helpers
                 Dictionary<string, string> textItem = new Dictionary<string, string>();
                 textMenus.Add(textItem);
 
-                
+
 
                 string[] lstLevel = Regex.Split(menu.LevelTree + "@@@abc", "@@@");
                 currentLevel = lstLevel.Length - 1;
@@ -325,8 +322,8 @@ namespace BI_Project.Helpers
 
                 }
                 //SET VALUE FOR ALL NORMAL ELEMENTS
-                
-                
+
+
                 if (gap == 0 && i > 0)
                 {
                     textMenus[i]["option_close"] = option_close;
@@ -361,7 +358,7 @@ namespace BI_Project.Helpers
             {
                 textMenus[i - 1]["is_option_open"] = "1";
                 textMenus[i - 1]["option_close"] = "";
-                while (currentLevel >1)
+                while (currentLevel > 1)
                 {
                     textMenus[i - 1]["option_close"] += option_close + optgroup_close;
                     currentLevel--;
@@ -373,16 +370,16 @@ namespace BI_Project.Helpers
 
             foreach (Dictionary<string, string> menuItem in textMenus)
             {
-                if(menuItem.Keys.Contains("is_option_open"))
+                if (menuItem.Keys.Contains("is_option_open"))
                 {
                     strMenus += menuItem["option_open"];
                 }
                 else
                 {
-                    strMenus += menuItem["optgroup_open"] + "'"+ menuItem["text"]+"' >";
+                    strMenus += menuItem["optgroup_open"] + "'" + menuItem["text"] + "' >";
                 }
-                if(menuItem.Keys.Contains("option_close"))
-                strMenus += menuItem["option_close"];
+                if (menuItem.Keys.Contains("option_close"))
+                    strMenus += menuItem["option_close"];
             }
             output += strMenus + "";
 

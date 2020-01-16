@@ -3997,7 +3997,7 @@ select.selectpicker {
 *
 * ---------------------------------------------------------------------------- */
 .editable {
-  background-color: transparent;
+    background-color: transparent;
 }
 .form-horizontal .editable {
   padding-top: 8px;

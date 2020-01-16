@@ -3,8 +3,6 @@ using BI_Project.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace BI_SUN.Services.SetDefaultPage
 {

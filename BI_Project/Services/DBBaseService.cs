@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using BI_Project.Helpers.Security;
-using System.Data.SqlClient;
-using System.Data.OracleClient;
+﻿using System.Data.OracleClient;
 
 namespace BI_Project.Services
 {
@@ -18,14 +12,14 @@ namespace BI_Project.Services
         public DBBaseService(DBConnection dBConnection)
         {
             DBConnection = dBConnection;
-           IsCloseDBAfterExecute = true;
+            IsCloseDBAfterExecute = true;
         }
 
         public DBBaseService(DBConnection connection, string dbStagingConnectionString)
         {
 
         }
-        public DBBaseService (ConnectOracleDB connectOracleDB)
+        public DBBaseService(ConnectOracleDB connectOracleDB)
         {
             ConnectOracleDB = connectOracleDB;
             IsCloseDBAfterExecute = true;
@@ -38,7 +32,7 @@ namespace BI_Project.Services
             IsCloseDBAfterExecute = true;
         }
 
-        public bool CheckPermission(int menuid,int userid,int roleid, bool isCheckRole)
+        public bool CheckPermission(int menuid, int userid, int roleid, bool isCheckRole)
         {
             bool output = true;
             return output;

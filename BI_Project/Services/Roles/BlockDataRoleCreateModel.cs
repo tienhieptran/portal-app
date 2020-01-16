@@ -1,8 +1,4 @@
-﻿using BI_Project.Models.EntityModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace BI_Project.Services.Roles
 {
@@ -15,7 +11,7 @@ namespace BI_Project.Services.Roles
         public int DeptID { get; set; }
 
         public string StrAllowedMenus { set; get; }
-        public List<int>  ListRoleMenus { set; get; }
+        public List<int> ListRoleMenus { set; get; }
 
         //public int DepartId { get; set; }
 
@@ -24,6 +20,6 @@ namespace BI_Project.Services.Roles
         {
             ListRoleMenus = new List<int>();
         }
-        
+
     }
 }

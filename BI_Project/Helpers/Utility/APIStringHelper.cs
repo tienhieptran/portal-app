@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace BI_Project.Helpers.Utility
 {
@@ -18,7 +15,7 @@ namespace BI_Project.Helpers.Utility
         {
             string output = "";
             DateTime now = DateTime.UtcNow;
-            output = now.Year.ToString() + "_" + now.Month.ToString() + "_" + now.Day + "_" + now.Hour+"_" + now.Minute+"_" + now.Second +"_"+ now.Millisecond;
+            output = now.Year.ToString() + "_" + now.Month.ToString() + "_" + now.Day + "_" + now.Hour + "_" + now.Minute + "_" + now.Second + "_" + now.Millisecond;
             return output;
         }
         public static string UrlEncode(string encodedValue)
@@ -57,7 +54,7 @@ namespace BI_Project.Helpers.Utility
 
         public static string GenerateId(int? year = 0, int? month = 0)
         {
-            string output = year+"_"+month+"_";
+            string output = year + "_" + month + "_";
             //DateTime now = DateTime.Now;
             Random rd = new Random();
             //int item = rd.Next(100, 999);

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Data;
 using System.Data.SqlClient;
-using System.Data.OleDb;
 
 namespace BI_Project.Services
 {
@@ -60,12 +57,12 @@ namespace BI_Project.Services
                     SqlConnection.ClearAllPools();
 
                 }
-                if(null != command)
+                if (null != command)
                 {
                     command.Parameters.Clear();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.ERROR = ex.ToString();
             }
@@ -81,14 +78,14 @@ namespace BI_Project.Services
         /// <param name="dicParaOutputs">Note that: this param enable be null.
         /// It is the list of paramenter in which the para is declared as output parameter</param>
         /// <returns>the number of  record that be effected when the store procedure be excuted</returns>
-        public int ExecSPNonQuery(string spName, Dictionary<string,object> dicParameters, ref Dictionary<string,object> dicParaOutputs,bool isCloseConnect=false)
+        public int ExecSPNonQuery(string spName, Dictionary<string, object> dicParameters, ref Dictionary<string, object> dicParaOutputs, bool isCloseConnect = false)
         {
             int result = 0;
             try
             {
                 this.OpenDBConnect();
                 if (this.ERROR != null) throw new Exception("Can't connect to db");
-                
+
                 command.CommandType = System.Data.CommandType.StoredProcedure;
                 command.CommandText = spName;
 
@@ -96,32 +93,32 @@ namespace BI_Project.Services
 
                 foreach (string paraname in dicParameters.Keys)
                 {
-                    SqlParameter para = new SqlParameter("@" + paraname, dicParameters[paraname]??DBNull.Value);
+                    SqlParameter para = new SqlParameter("@" + paraname, dicParameters[paraname] ?? DBNull.Value);
                     command.Parameters.Add(para);
                 }
                 foreach (string paraname in dicParaOutputs.Keys)
                 {
-                    SqlParameter para = new SqlParameter("@" + paraname, dicParaOutputs[paraname]?? DBNull.Value);
+                    SqlParameter para = new SqlParameter("@" + paraname, dicParaOutputs[paraname] ?? DBNull.Value);
                     para.Direction = ParameterDirection.InputOutput;
                     command.Parameters.Add(para);
                     dicTemp.Add(paraname, para);
 
 
                 }
-                
+
                 result = command.ExecuteNonQuery();
 
                 dicParaOutputs.Clear();
                 foreach (string paraname in dicTemp.Keys)
                 {
-                    
-                    object outvalue = command.Parameters["@"+paraname].Value;
+
+                    object outvalue = command.Parameters["@" + paraname].Value;
                     dicParaOutputs.Add(paraname, outvalue);
                 }
-                
+
                 dicTemp.Clear();
 
-                
+
             }
             catch (Exception exc)
             {
@@ -138,7 +135,7 @@ namespace BI_Project.Services
 
 
 
-        public SqlDataReader ExecSPReader(string spName, Dictionary<string,object> dicParameters, bool isCloseConnect = false)
+        public SqlDataReader ExecSPReader(string spName, Dictionary<string, object> dicParameters, bool isCloseConnect = false)
         {
             SqlDataReader result = null;
             try
@@ -148,7 +145,7 @@ namespace BI_Project.Services
                 command.CommandType = CommandType.StoredProcedure;
                 command.CommandText = spName;
 
-                
+
                 //add input paras 
                 foreach (string paraName in dicParameters.Keys)
                 {
@@ -157,9 +154,9 @@ namespace BI_Project.Services
                 }
 
 
-                
+
                 result = command.ExecuteReader(CommandBehavior.CloseConnection);
-                
+
 
 
             }
@@ -218,7 +215,7 @@ namespace BI_Project.Services
                 foreach (string paraname in dicTemp.Keys)
                 {
 
-                    object outvalue = command.Parameters["@"+paraname].Value;
+                    object outvalue = command.Parameters["@" + paraname].Value;
                     dicParaOutputs.Add(paraname, outvalue);
                 }
 
@@ -291,8 +288,8 @@ namespace BI_Project.Services
             }
             finally
             {
-                if(isCloseConnect ==true)
-                this.CloseDBConnect();
+                if (isCloseConnect == true)
+                    this.CloseDBConnect();
             }
 
             return result;

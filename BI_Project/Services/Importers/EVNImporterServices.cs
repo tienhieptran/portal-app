@@ -1,19 +1,16 @@
-﻿using BI_Project.Models.EntityModels;
+﻿using BI_Project.Helpers;
+using BI_Project.Models.EntityModels;
+using bicen.Services.Importers;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
+using OfficeOpenXml;
 //using System.Data.OracleClient;
 using Oracle.ManagedDataAccess.Client;
-using OracleInternal.SqlAndPlsqlParser;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
-using System.Linq;
-using System.Web;
-using BI_Project.Helpers;
-using BI_Project.Helpers.Utility;
 using System.IO;
-using OfficeOpenXml;
-using bicen.Services.Importers;
+using System.Linq;
 
 namespace BI_Project.Services.Importers
 {
@@ -347,7 +344,7 @@ namespace BI_Project.Services.Importers
                 /**************************************************INSERT HISTORY**************************************/
                 this.DBConnection.OpenDBConnect();
                 int idHistory = 0;
-                this.InsertHistory(userid, uploadRoleId, lstMapping.FolderHelpDocumentPath, lstMapping.LangNote, lstMapping.FolderFileNativeName, excelFileName, ref idHistory, 0,0);
+                this.InsertHistory(userid, uploadRoleId, lstMapping.FolderHelpDocumentPath, lstMapping.LangNote, lstMapping.FolderFileNativeName, excelFileName, ref idHistory, 0, 0);
 
                 this.DBConnection.CloseDBConnect();
                 string deleteRecordQuery = "DELETE FROM " + lstMapping.DBTableName + " WHERE ";
@@ -366,10 +363,10 @@ namespace BI_Project.Services.Importers
                         if (index == 1) continue;
                         if (index == 2)
                         {
-                            var madviqly = dataReader[0].ToString().Substring(0,2);
+                            var madviqly = dataReader[0].ToString().Substring(0, 2);
                             var _month = dataReader[2].ToString();
                             var _year = dataReader[3].ToString();
-                            deleteRecordQuery += "ma_dviqly like '%" + madviqly +"%'" + " "+ "AND " +  "THANG_BC " + "= " + _month + " " + "AND " + "NAM_BC " + "= " + _year;
+                            deleteRecordQuery += "ma_dviqly like '%" + madviqly + "%'" + " " + "AND " + "THANG_BC " + "= " + _month + " " + "AND " + "NAM_BC " + "= " + _year;
                             this.ConnectOracleDB.command.CommandText = deleteRecordQuery;
                             this.ConnectOracleDB.command.ExecuteNonQuery();
                         }
@@ -511,19 +508,19 @@ namespace BI_Project.Services.Importers
                     foreach (DataRow result in results)
                     {
                         columnIndex = 0;
-                        
-                        foreach(object obj in result.ItemArray)
+
+                        foreach (object obj in result.ItemArray)
                         {
 
 
                             //string colvalue = result.Field<string>(columnIndex);
                             string colname = lstColumns[columnIndex];
-                           
-                            
+
+
                             ConnectOracleDB.command.Parameters.Add(new OracleParameter(":" + colname, obj ?? (object)DBNull.Value));
                             columnIndex++;
                         }
-                        
+
                         this.ConnectOracleDB.command.CommandText = sqlInsertDW + sqlInsertDWValues;
                         this.ConnectOracleDB.command.CommandType = CommandType.Text;
                         this.ConnectOracleDB.command.ExecuteNonQuery();
@@ -693,7 +690,7 @@ namespace BI_Project.Services.Importers
 
         public List<DNT_QMKLTN_HA1820> GetList_DNT_QMKLTN_HA1820()
         {
-            List < DNT_QMKLTN_HA1820 > output= new List<DNT_QMKLTN_HA1820>();
+            List<DNT_QMKLTN_HA1820> output = new List<DNT_QMKLTN_HA1820>();
             OracleTransaction transaction = null;
             ConnectOracleDB.OpenDBConnect();
             transaction = ConnectOracleDB.OracleDBConnect.BeginTransaction();
@@ -705,7 +702,7 @@ namespace BI_Project.Services.Importers
             this.ConnectOracleDB.command.CommandType = CommandType.Text;
 
             OracleDataReader objReader = this.ConnectOracleDB.command.ExecuteReader();
-            while(objReader.Read())
+            while (objReader.Read())
             {
                 DNT_QMKLTN_HA1820 model = new DNT_QMKLTN_HA1820();
                 model.MA_DVIQLY = objReader.GetString(objReader.GetOrdinal("MA_DVIQLY"));
@@ -1011,12 +1008,12 @@ namespace BI_Project.Services.Importers
                 //dicParas.Add("")
                 output = this.DBConnection.ExecSPNonQuery("SP_EXCEL_FILE_DELETE", dicParas, ref dicParaOuts, false);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.ERROR = ex.ToString();
                 output = -1;
             }
-            
+
             return output;
         }
     }

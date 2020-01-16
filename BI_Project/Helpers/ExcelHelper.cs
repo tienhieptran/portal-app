@@ -1,11 +1,9 @@
-﻿using System.Drawing;
+﻿using Newtonsoft.Json.Linq;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.IO;
-using OfficeOpenXml;
-using Newtonsoft.Json.Linq;
+using System.Linq;
 
 
 namespace BI_Project.Helpers
@@ -57,11 +55,11 @@ namespace BI_Project.Helpers
     public class ExcelXmlModel
     {
         public ExcelXmlCommon ExcelXmlCommon { set; get; }
-        public List< ExcelXMLPara> LstParas { set; get; }
+        public List<ExcelXMLPara> LstParas { set; get; }
         public List<ExcelXMLColumn> LstColumn { set; get; }
 
         public JObject TemplateContents { set; get; }
-        public ExcelXmlModel ()
+        public ExcelXmlModel()
         {
             LstColumn = new List<ExcelXMLColumn>();
             LstParas = new List<ExcelXMLPara>();
@@ -69,18 +67,18 @@ namespace BI_Project.Helpers
     }
     public class ExcelHelper
     {
-        public void writeColumn(ExcelWorksheet worksheet,int row, int column, object value)
+        public void writeColumn(ExcelWorksheet worksheet, int row, int column, object value)
         {
             //ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets[workSheetName];
             worksheet.Cells[row, column].Value = value;
-            
+
         }
 
         public void writePara(ExcelWorksheet worksheet, ExcelXMLPara para, bool isBold)
         {
-            writeHeaderColumn(worksheet, para.Row, para.Column, para.Colspan, para.Title,isBold,0);
+            writeHeaderColumn(worksheet, para.Row, para.Column, para.Colspan, para.Title, isBold, 0);
         }
-        public void writeHeaderColumn(ExcelWorksheet worksheet,int row, int column, int colspan, object value,bool isBold,int colwidth)
+        public void writeHeaderColumn(ExcelWorksheet worksheet, int row, int column, int colspan, object value, bool isBold, int colwidth)
         {
             worksheet.Cells[row, column].Value = value;
             worksheet.Cells[row, column, row, column + colspan - 1].Merge = true;
@@ -100,7 +98,7 @@ namespace BI_Project.Helpers
 
             //WRITE PARAMETERS TO EXCEL FILE
             ExcelWorksheet ws = p.Workbook.Worksheets.Add(model.ExcelXmlCommon.SheetName);
-            foreach(ExcelXMLPara para in model.LstParas)
+            foreach (ExcelXMLPara para in model.LstParas)
             {
                 writePara(ws, para, true);
             }
@@ -110,7 +108,7 @@ namespace BI_Project.Helpers
             foreach (ExcelXMLColumn column in model.LstColumn)
             {
                 indexColumn++;
-                writeHeaderColumn(ws, indexDataRow, indexColumn,1, column.Title, true,column.ColumnWidth);
+                writeHeaderColumn(ws, indexDataRow, indexColumn, 1, column.Title, true, column.ColumnWidth);
             }
 
             foreach (Dictionary<string, object> row in data)
@@ -120,19 +118,19 @@ namespace BI_Project.Helpers
                 foreach (ExcelXMLColumn column in model.LstColumn)
                 {
                     indexColumn++;
-                    if(column.IsGetData)
+                    if (column.IsGetData)
                     {
-                        writeHeaderColumn(ws, indexDataRow, indexColumn, 1, row[column.Name], false,column.ColumnWidth);
+                        writeHeaderColumn(ws, indexDataRow, indexColumn, 1, row[column.Name], false, column.ColumnWidth);
                         //ws.Column(indexColumn).BestFit = true;
                         //ws.Column(indexColumn).AutoFit(column.ColumnWidth);
                     }
-                    
+
                 }
             }
             //ws.Cells[1, 1, indexDataRow, indexColumn].AutoFitColumns();
 
             //ws.Column(2).AutoFit(150);
-            
+
             return new MemoryStream(p.GetAsByteArray());
         }
 
@@ -146,16 +144,16 @@ namespace BI_Project.Helpers
             string excel_menu = "..excel_" + menuid;
             JObject jObject = BI_Project.Helpers.Utility.JTokenHelper.GetXML2Jobject(xmlFilePath);
 
-            output.TemplateContents = BI_Project.Helpers.Utility.JTokenHelper.GetActiveJObject(jObject,excel_menu);
+            output.TemplateContents = BI_Project.Helpers.Utility.JTokenHelper.GetActiveJObject(jObject, excel_menu);
             //Get Common Info
             output.ExcelXmlCommon = new ExcelXmlCommon();
             output.ExcelXmlCommon.ExcelFileName = BI_Project.Helpers.Utility.JTokenHelper.GetElementLanguage(jObject,
-                                                        excel_menu+ ".common.filename");
+                                                        excel_menu + ".common.filename");
 
             output.ExcelXmlCommon.SheetName = BI_Project.Helpers.Utility.JTokenHelper.GetElementLanguage(jObject,
                                                         excel_menu + ".common.sheet");
 
-            output.ExcelXmlCommon.StartRow = int.Parse( BI_Project.Helpers.Utility.JTokenHelper.GetElementLanguage(jObject,
+            output.ExcelXmlCommon.StartRow = int.Parse(BI_Project.Helpers.Utility.JTokenHelper.GetElementLanguage(jObject,
                                                         excel_menu + ".common.datarowstart"));
 
             output.ExcelXmlCommon.ReportName = BI_Project.Helpers.Utility.JTokenHelper.GetElementLanguage(jObject,
@@ -175,14 +173,14 @@ namespace BI_Project.Helpers
                 paraXMLModel.Column = para.SelectToken("..column").Value<Int32>();
                 paraXMLModel.Colspan = para.SelectToken("..colspan").Value<Int32>();
                 paraXMLModel.Title = para.SelectToken("..title").Value<string>();
-                
+
                 output.LstParas.Add(paraXMLModel);
             }
 
             //GET COLUMNS CONFIG
             IEnumerable<JToken> columns = BI_Project.Helpers.Utility.JTokenHelper.GetList(jObject, excel_menu + "..columns.column");
 
-            foreach(JToken column in columns)
+            foreach (JToken column in columns)
             {
                 ExcelXMLColumn columnXML = new ExcelXMLColumn();
                 columnXML.Name = column.SelectToken("..name").Value<string>();
@@ -191,13 +189,13 @@ namespace BI_Project.Helpers
                 columnXML.IsGetData = column.SelectToken("..isgetdata").Value<bool>();
                 columnXML.ColumnWidth = column.SelectToken("..width").Value<int>();
                 output.LstColumn.Add(columnXML);
-                
+
             }
             return output;
         }
 
 
-        public MemoryStream Export2Excel (string xmlFilePath, IEnumerable<object> data,string menuid, ref string fileName)
+        public MemoryStream Export2Excel(string xmlFilePath, IEnumerable<object> data, string menuid, ref string fileName)
         {
             ExcelXmlModel model = GetUploadExcelXMLConfig(xmlFilePath, menuid);
             return ExportExcel(model, data, ref fileName);
@@ -215,12 +213,12 @@ namespace BI_Project.Helpers
             output = model.TemplateContents.SelectToken(".." + elementPath).Value<object>();
             return output;
         }
-                
+
         public string GetNewFile(string pathFile)
         {
             string output = null;
             var directory = new DirectoryInfo(pathFile);
-            if(directory.GetFiles().Count() > 0)
+            if (directory.GetFiles().Count() > 0)
                 output = directory.GetFiles().OrderByDescending(f => f.LastWriteTime).First().ToString();
             return output;
         }

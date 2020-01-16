@@ -1,0 +1,214 @@
+﻿@using bicen.Services.Importers;
+@model BI_Project.Models.UI.BlockModel
+
+@{
+    BlockLangRowUploadModel blockLang = (BlockLangRowUploadModel)Model.LanguageModel;
+    BlockDataRowUploadModel blockData = (BlockDataRowUploadModel)Model.DataModel;
+
+    var request = HttpContext.Current.Request;
+    string baseUrl = string.Format("{0}://{1}", request.Url.Scheme, request.Url.Authority);
+    string currentUrl = request.RawUrl;
+}
+
+@*<script src="~/assets/js/custom_js/CurrentMonth-Year.js"></script>*@
+
+<!-- /page header -->
+<div class="content">
+
+    @if (Session["msg_text"] != null)
+    {
+        string class_panel = "panel-body";
+        if (Session["msg_code"] != null)
+        {
+            int msgCode = (int)Session["msg_code"];
+            if (msgCode >= 1) { class_panel = " panel-success "; }
+
+            Session.Remove("msg_code");
+        }
+        <div class="panel row @class_panel">
+            <div class="panel-heading">
+
+                @Session["msg_text"]
+
+
+            </div>
+        </div>
+        Session.Remove("msg_text");
+    }
+
+
+    <div class="row">
+        <div class="panel panel-flat">
+
+            <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <select id="File" name="File" class="form-control">
+                                <option value="0">[@blockLang.File]</option>
+                                @{
+                                    string selected = "  ";
+                                    string val = "";
+                                    for (int i = 1; i < 6; i++)
+                                    {
+                                        if (i == blockData.File) { selected = " selected  "; }
+                                        else { selected = "  "; }
+                                        switch (i)
+                                        {
+                                            case 1:
+                                                val = "Báo cáo tiếp nhận LĐHANT giai đoạn 2018-2020"; break;
+                                            case 2:
+                                                val = "Tổng hợp quy mô khối lượng tiếp nhận"; break;
+                                            case 3:
+                                                val = "Tổng hợp quy mô khối lượng đề nghị của UB/Tỉnh bộ"; break;
+                                            case 4:
+                                                val = "Tình hình cấp điện tại xã, phường, thị trấn (PL 7.1)"; break;
+                                            case 5:
+                                                val = "Tình hình cấp điện tại hộ (PL 7.2)"; break;
+                                            default:
+                                                val = ""; break;
+                                        }
+                                        <option value="@i" @selected>@val</option>
+                                    }
+                                }
+
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select id="Month" name="Month" class="form-control">
+                                <option value="0">[@blockLang.Month]</option>
+                                @{
+                                    selected = "  ";
+
+                                    for (int i = 1; i <= 12; i++)
+                                    {
+                                        if (i == blockData.Month) { selected = " selected  "; }
+                                        else { selected = "  "; }
+                                        <option value="@i" @selected>@i</option>
+                                    }
+                                }
+
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select id="Year" name="Year" class="form-control">
+                                <option value="0">[@blockLang.Year]</option>
+                                @{
+                                    selected = "   ";
+                                    for (int i = 2000; i <= 2020; i++)
+                                    {
+                                        if (i == blockData.Year) { selected = " selected "; }
+                                        else { selected = "  "; }
+                                        <option value="@i" @selected>@i</option>
+                                    }
+
+                                }
+
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <input type="submit" id="btnSearch" value="@blockLang.Search" class="btn btn-primary btn-xlg" />
+                        </div>
+                    </div>
+            </div>
+
+            
+        </div>
+    </div>
+
+    <div id="divTableData" class="row hide">
+        <div class="panel panel-flat">
+
+            <div class="panel-body" style="overflow:scroll">
+                <br />
+                <table id="jqGrid" class="jqGrid"></table>
+                <div id="jqGridPager"></div>
+                <br />
+                <form method="post" action="@baseUrl/EVNImportExcelPL/UploadTableData">
+                    <input type="hidden" id="uploadYear" name="Year" value="@blockData.Year" />
+                    <input type="hidden" id="uploadMonth" name="Month" value="@blockData.Month" />
+                    <input type="hidden" id="uploadFile" name="File" value="@blockData.File" />
+                    <input type="hidden" id="uploadData" name="DataString" value="@blockData.DataString" />
+                    <input type="hidden" id="uploadDNT" name="ListDNT" value="@blockData.DataString" />
+                    <button type="submit" id="btnSubmit" class="btn btn-primary">Submit</button>
+                    <button type="reset" id="btnReset" class="btn btn-danger">Reset</button>
+                </form>
+                
+
+                <div id="dialog" title="edit view" style="overflow: hidden;"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    $("#btnSearch").click(function () {
+        $("#divTableData").removeClass("hide");
+        var lastsel2 = null;
+        var myGrid = $('#jqGrid');
+        myGrid.jqGrid({
+            url: '/EVNImportExcelPL/GetDataRows/',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'POST',
+            postData: {
+                month: $('#Month').find(":selected").val(),
+                year: $('#Year').find(":selected").val(),
+                file: $('#File').find(":selected").val()
+            },
+            colNames: ['MA_DVIQLY', 'TEN_CTRINH', 'THANG_BC', 'NAM_BC',
+                    'SL_XA', 'SL_TCBD', 'DZ_HTHE', 'SO_HOTN', 'GTCL_VVNSNN', 'GTCL_VV',
+                    'GTCL_VDTHTX', 'GTCL_VDAN', 'GTCL_VKHAC', 'CPHI_TNCT'],
+            colModel: [
+                { name: 'MA_DVIQLY', key: true, width: 75 },
+                { name: 'TEN_CTRINH', key: true, width: 100 },
+                { name: 'THANG_BC', key: true, width: 75, editable: true, edittype:"select", editoptions:{value:"1:1;2:2;3:3;4:4;5:5;6:6;7:7;8:8;9:9;10:10;11:11;12:12"} },
+                { name: 'NAM_BC', key: true, width: 50 , editable: true, edittype:"text"},
+                { name: 'SL_XA', key: true, width: 75, editable: true },
+                { name: 'SL_TCBD', key: true, width: 75, editable: true},
+                { name: 'DZ_HTHE', key: true, width: 75, editable: true },
+                { name: 'SO_HOTN', key: true, width: 75, editable: true },
+                { name: 'GTCL_VVNSNN', key: true, width: 75, editable: true },
+                { name: 'GTCL_VV', key: true, width: 75, editable: true },
+                { name: 'GTCL_VDTHTX', key: true, width: 75, editable: true },
+                { name: 'GTCL_VDAN', key: true, width: 75, editable: true },
+                { name: 'GTCL_VKHAC', key: true, width: 75, editable: true },
+                { name: 'CPHI_TNCT', key: true, width: 75, editable: true }
+            ],
+            onSelectRow: function(id){
+                if (id && id !== lastsel2) {
+                    if(lastsel2) $("#jqGrid").saveRow(lastsel2, true, 'clientArray');
+                    lastsel2 = id;
+                }
+                $('#jqGrid').editRow(id, false);
+            },
+            pager: '#jqGridPager',
+            gridview: true,
+            rownumbers: true,
+            pagerpos: 'center',
+            rowNum: 20,
+            height: 300,
+            rowList: [10, 50, 100, 200],
+        })
+
+        $("#uploadYear").val($('#Year').find(":selected").val());
+        $("#uploadMonth").val($('#Month').find(":selected").val());
+        $("#uploadFile").val($('#File').find(":selected").val());
+
+
+         $("#btnSubmit").click(function () {
+            console.log("Hello World");
+            $("#jqGrid").saveRow(lastsel2, true, 'clientArray');
+            var gridData = $('#jqGrid').jqGrid('getRowData');
+            var str = JSON.stringify(gridData);
+            $("#uploadData").val(str);
+            $("#uploadDNT").val(gridData);
+            console.log(str);
+            console.log(($('#jqGrid').jqGrid('getRowData')).join());
+        })
+        
+    })
+
+</script>

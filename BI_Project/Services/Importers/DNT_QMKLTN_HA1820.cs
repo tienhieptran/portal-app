@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace bicen.Services.Importers
+﻿namespace bicen.Services.Importers
 {
     public class DNT_QMKLTN_HA1820
     {

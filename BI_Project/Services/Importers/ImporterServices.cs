@@ -1,28 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using BI_Project.Models.EntityModels;
-using BI_Project.Helpers.Security;
-using System.Data.SqlClient;
-using System.Data;
+﻿using BI_Project.Models.EntityModels;
 using Newtonsoft.Json.Linq;
-
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.OleDb;
+using System.Data.SqlClient;
 
 namespace BI_Project.Services.Importers
 {
-    public class ImporterServices:DBBaseService
+    public class ImporterServices : DBBaseService
     {
         DBConnection _dbStagingConnection;
         public string ERROR_USER { set; get; }
-        public ImporterServices(DBConnection connection):base(connection)
+        public ImporterServices(DBConnection connection) : base(connection)
         {
 
 
         }
 
-        public ImporterServices(DBConnection connection,string dbStagingConnectionString):base(connection,dbStagingConnectionString)
+        public ImporterServices(DBConnection connection, string dbStagingConnectionString) : base(connection, dbStagingConnectionString)
         {
             _dbStagingConnection = new DBConnection(dbStagingConnectionString);
             this.DBConnection = connection;
@@ -234,7 +230,7 @@ namespace BI_Project.Services.Importers
             return output;
 
         }
-       
+
 
 
         public int Import2Database(int userid, string excelFilePath, string tablename, int startRow, string sheetActive,
@@ -344,7 +340,7 @@ namespace BI_Project.Services.Importers
                         //this._dbStagingConnection.command.CommandText = sqlInsertDW + sqlInsertDWValues;
                         //this._dbStagingConnection.command.CommandType = CommandType.Text;
                         //this._dbStagingConnection.command.ExecuteNonQuery();
-                        if (countNullColumn == lstMapping.Count) break;                        
+                        if (countNullColumn == lstMapping.Count) break;
                         else
                         {
                             this._dbStagingConnection.command.CommandText = sqlInsertDW + sqlInsertDWValues;
@@ -390,7 +386,7 @@ namespace BI_Project.Services.Importers
             SqlTransaction transaction = null;
             try
             {
-                
+
                 //GET EXCEL DATA
                 string sqlOle = "select * from [" + sheetActive + "$]";
                 oleDbConnection.Open();
@@ -403,10 +399,10 @@ namespace BI_Project.Services.Importers
                     while (dataReader.Read())
                     {
                         index++;
-                        if (index < number_row) continue;                     
+                        if (index < number_row) continue;
                         columnIndex = 1;
 
-                        for(int i = 0; i < number_cell; i++)
+                        for (int i = 0; i < number_cell; i++)
                         {
                             MappingExcelDB column = new MappingExcelDB();
                             column.Value = dataReader[column.ExcelColumn + columnIndex];
@@ -416,8 +412,8 @@ namespace BI_Project.Services.Importers
                         break;
                     }
 
-                }               
-              
+                }
+
             }
             catch (Exception ex)
             {
@@ -429,13 +425,13 @@ namespace BI_Project.Services.Importers
                 this.DBConnection.CloseDBConnect();
                 oleReadCommand.Dispose();
                 oleDbConnection.Close();
-                oleDbConnection.Dispose();               
+                oleDbConnection.Dispose();
             }
             return output;
         }
 
 
-        public int InsertHistory(int userId, int uploadRoleId, string helpDocPath, string note, string navetiveFile,string FileUploadedName, ref int id)
+        public int InsertHistory(int userId, int uploadRoleId, string helpDocPath, string note, string navetiveFile, string FileUploadedName, ref int id)
         {
             int output = 0;
             Dictionary<string, object> dicInputParas = new Dictionary<string, object>();
@@ -456,22 +452,22 @@ namespace BI_Project.Services.Importers
             return output;
         }
 
-        public int UpdateHistory(int id,int numberInsertedRow)
+        public int UpdateHistory(int id, int numberInsertedRow)
         {
             int output = 0;
             Dictionary<string, object> dicInputParas = new Dictionary<string, object>();
             Dictionary<string, object> dicOutputParas = new Dictionary<string, object>();
-            dicInputParas.Add("ID",id);
+            dicInputParas.Add("ID", id);
             dicInputParas.Add("NumberInsertedRow", numberInsertedRow);
-            output = this.DBConnection.ExecSPNonQuery("SP_UPLOAD_HISTORY_UPDATE", dicInputParas,ref dicOutputParas, false);
+            output = this.DBConnection.ExecSPNonQuery("SP_UPLOAD_HISTORY_UPDATE", dicInputParas, ref dicOutputParas, false);
             return output;
         }
 
 
-        public List<EntityUploadHistoryModel> GetHistoryList(int currentpage, int noRecordPerPage,string permissionID, ref int noPages, ref int noRecord,int month, int year)
+        public List<EntityUploadHistoryModel> GetHistoryList(int currentpage, int noRecordPerPage, string permissionID, ref int noPages, ref int noRecord, int month, int year)
         {
 
-           // DBConnection.OpenDBConnect();
+            // DBConnection.OpenDBConnect();
             //STEP1:  ***************************************************************/
             Dictionary<string, object> dicParas = new Dictionary<string, object>();
             Dictionary<string, object> dicParaOuts = new Dictionary<string, object>();
@@ -483,7 +479,7 @@ namespace BI_Project.Services.Importers
                 {
                     intpermissionID = Int32.Parse(permissionID);
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     intpermissionID = 0;
                 }
@@ -503,14 +499,14 @@ namespace BI_Project.Services.Importers
                 noRecord = (int)dicParaOuts["NO_RECORDS"];
 
                 DataTable table = ds.Tables[0];
-                foreach(DataRow dr in table.Rows)
+                foreach (DataRow dr in table.Rows)
                 {
                     EntityUploadHistoryModel model = (EntityUploadHistoryModel)dr;
 
                     output.Add(model);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.ERROR = ex.ToString();
             }

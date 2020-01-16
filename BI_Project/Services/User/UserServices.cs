@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using BI_Project.Models.EntityModels;
+﻿using BI_Core.Helpers;
 using BI_Project.Helpers.Security;
-using System.Data.SqlClient;
-using System.Data;
-
-using BI_Project.Services.User;
-using BI_Core.Helpers;
+using BI_Project.Models.EntityModels;
 using bicen.Models.EntityModels;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace BI_Project.Services.User
 {
@@ -43,7 +40,7 @@ namespace BI_Project.Services.User
                 if (loginModel.Department == "P")
                 {
                     string sqlUserSalt = "Select Salt from Users Where UserName = @UserName and deptID = 0";
-                    
+
 
                     PasswordManager pwm = new PasswordManager();
 
@@ -74,7 +71,7 @@ namespace BI_Project.Services.User
                 else
                 {
                     string sqlUserSalt = "Select Salt from Users a , Department b Where a.UserName = @UserName and a.deptID = b.Id and b.Code = @Code";
-                    
+
 
                     PasswordManager pwm = new PasswordManager();
 
@@ -341,7 +338,7 @@ namespace BI_Project.Services.User
             int output = 0;
             string _salt = "";
             PasswordManager pwm = new PasswordManager();
-            
+
 
             try
             {
@@ -364,7 +361,7 @@ namespace BI_Project.Services.User
                     //{
                     //    throw new Exception("Mật khẩu phải chứa ít nhất 8 ký tự bao gồm ít nhất 1 kí tự là chữ viết thường, 1 kí tự là chữ viết hoa và 1 kí tự là số");
                     //}
-                    
+
                     string passwordHashed = pwm.GetPasswordHashedAndGetSalt(model.Password, out _salt);
                     model.Password = passwordHashed;
                     model.Salt = _salt;
@@ -374,7 +371,7 @@ namespace BI_Project.Services.User
                 {
                     dicParas.Add("UserId", model.UserId);
                     dicParas.Add("UserName", model.UserName);
-                    if(model.Password == null)
+                    if (model.Password == null)
                     {
                         dicParas.Add("Password", passOld);
                         dicParas.Add("Salt", saltOld);
@@ -398,7 +395,7 @@ namespace BI_Project.Services.User
                         dicParas.Add("LstOfRoleIds", LstOfRoleIds);
                         dicParas.Add("FullName", model.FullName);
                     }
-                   
+
 
 
                     output = DBConnection.ExecSPNonQuery("SP_USER_INSERT_OR_UPDATE", dicParas, ref dicParaOuts, true);
@@ -662,7 +659,7 @@ namespace BI_Project.Services.User
                     {
                         while (reader.Read())
                         {
-                             output =  reader.IsDBNull(reader.GetOrdinal("Code")) ? null : reader.GetString(reader.GetOrdinal("Code"));
+                            output = reader.IsDBNull(reader.GetOrdinal("Code")) ? null : reader.GetString(reader.GetOrdinal("Code"));
 
                         }
                     }
