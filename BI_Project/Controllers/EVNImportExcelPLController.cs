@@ -276,13 +276,13 @@ namespace bicen.Controllers
                 case 2:
                     dataTable = services.GetList_DNT_QMKLTN_NVK(month, year); break;
                 case 3:
-                    dataTable = services.GetList_DNT_QMKLTN_HA1820(month, year); break;
+                    dataTable = services.GetList_DNT_QMKL_QD41(month, year); break;
                 case 4:
-                    dataTable = services.GetList_DNT_QMKLTN_HA1820(month, year); break;
+                    dataTable = services.GetList_DNT_QMKLTN_QD2081(month, year); break;
                 case 5:
-                    dataTable = services.GetList_DNT_QMKLTN_HA1820(month, year); break;
+                    dataTable = services.GetList_DNT_THCDIEN_PL71(month, year); break;
                 case 6:
-                    dataTable = services.GetList_DNT_QMKLTN_HA1820(month, year); break;
+                    dataTable = services.GetList_DNT_THCDIEN_PL72(month, year); break;
                 default:
                     dataTable = null;
             }
@@ -369,9 +369,39 @@ namespace bicen.Controllers
             {
                 return RedirectToAction("Logout", "Home");
             }
-            List<DNT_QMKLTN_HA1820> lst = new List<DNT_QMKLTN_HA1820>();
+
+            this.SetConnectionDB();
+            EVNImporterServices services = new EVNImporterServices(oracleConnection, DBConnection);
+
+            int file = model.File;
+            var lst =  null;
+            int output = 0;
+
+            switch(file) {
+                case 1:
+                    lst = new List<DNT_QMKLTN_HA1820>();
+                    break;
+                case 2:
+                    lst = new List<DNT_QMKLTN_NVK>();
+                    break;
+                case 3:
+                    lst = new List<DNT_QMKL_QD41>();
+                    break;
+                case 4:
+                    lst = new List<DNT_QMKLTN_QD2081>();
+                    break;
+                case 5:
+                    lst = new List<DNT_THCDIEN_PL71>();
+                    break;
+                case 6:
+                    lst = new List<DNT_THCDIEN_PL72>();
+                    break;
+                default:
+                    break;
+            }     
 
             lst = JsonConvert.DeserializeAnonymousType(model.DataString, lst);
+            output = services.ExecuteDataTable(model.Month, model.Year, model.File, lst);
 
             return RedirectToAction("AddDNTData");
         }
