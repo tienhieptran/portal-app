@@ -205,6 +205,11 @@
     <Compile Include="Helpers\Utility\JTokenHelper.cs" />
     <Compile Include="Models\BusinessModels\BlockWelcomeLangModel.cs" />
     <Compile Include="Models\BusinessModels\BlockLoginLangModel.cs" />
+    <Compile Include="Models\EntityModels\DNT_QMKLTN_NVK.cs" />
+    <Compile Include="Models\EntityModels\DNT_QMKLTN_QD2081.cs" />
+    <Compile Include="Models\EntityModels\DNT_QMKL_QD41.cs" />
+    <Compile Include="Models\EntityModels\DNT_THCDIEN_PL71.cs" />
+    <Compile Include="Models\EntityModels\DNT_THCDIEN_PL72.cs" />
     <Compile Include="Models\EntityModels\EntityDepartmentModel.cs" />
     <Compile Include="Models\EntityModels\EntityMenuModel.cs" />
     <Compile Include="Models\EntityModels\EntityUploadHistoryModel.cs" />
@@ -230,7 +235,7 @@
     <Compile Include="Services\Importers\BlockDataRowUploadModel.cs" />
     <Compile Include="Services\Importers\BlockLangRowUploadModel.cs" />
     <Compile Include="Services\Importers\BlockUIExcelUploadModel.cs" />
-    <Compile Include="Services\Importers\DNT_QMKLTN_HA1820.cs" />
+    <Compile Include="Models\EntityModels\DNT_QMKLTN_HA1820.cs" />
     <Compile Include="Services\Importers\ExcelModel.cs" />
     <Compile Include="Services\Importers\EVNImporterServices.cs" />
     <Compile Include="Services\Importers\FileUploadModel.cs" />
@@ -3298,7 +3303,6 @@
     <Content Include="HDSD\TAI LIEU HDSD HE THONG THEO DOI TINH HINH SU DUNG DIEN\vendors\bootstrap-3.4.0\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="HDSD\TAI LIEU HDSD HE THONG THEO DOI TINH HINH SU DUNG DIEN\_keywords.json" />
     <Content Include="HDSD\TAI LIEU HDSD HE THONG THEO DOI TINH HINH SU DUNG DIEN\_toc.json" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Tableau\TableauView.cshtml" />
     <Content Include="Views\Excels\EVN_block_upload_excel.cshtml" />
     <Content Include="Views\Departments\block_department_list.cshtml" />
@@ -3309,6 +3313,7 @@
     <Content Include="Views\EVNImportExcelPL\jqGrid.cshtml" />
     <Content Include="Views\EVNImportExcelPL\_GridEditPartial.cshtml" />
     <Content Include="Views\EVNImportExcelPL\EVNPL_block_upload_dnt.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
