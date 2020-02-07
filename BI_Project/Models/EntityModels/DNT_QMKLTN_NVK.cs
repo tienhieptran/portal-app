@@ -18,7 +18,8 @@ namespace bicen.Models.EntityModels
         public int DL_TBA { get; set; }
         public int DZ_HTHE { get; set; }
         public int SL_KHTN { get; set; }        
-        public int GTRI_CTRINH { get; set; }
+        public int GTRI_CTTGV { get; set; }
+        public int GTRI_CTTHT { get; set; }
 
     }
 }

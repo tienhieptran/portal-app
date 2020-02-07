@@ -17,6 +17,6 @@ namespace bicen.Services.Importers
 
         public string DataString { set; get; }
 
-        public List<DNT_QMKLTN_HA1820> ListDNT { set; get; }
+        //public List<DNT_QMKLTN_HA1820> ListDNT { set; get; }
     }
 }

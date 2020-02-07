@@ -15,7 +15,7 @@ namespace BI_Project.Services.Importers
         }
 
         public List<EntityUploadHistoryModel> ListHistory { set; get; }
-        public List<DNT_QMKLTN_HA1820> ListDNT { set; get; }
+
         public string PermissionID { set; get; }
 
 

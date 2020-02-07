@@ -262,6 +262,7 @@
     <Compile Include="Services\User\CreateUserRoleModel.cs" />
     <Compile Include="Services\User\LoginModel.cs" />
     <Compile Include="Services\User\UserServices.cs" />
+    <Compile Include="ViewModels\DVKH.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
@@ -300,6 +301,7 @@
     <Content Include="assets\css\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="assets\css\jquery-ui.css" />
     <Content Include="assets\css\jquery-ui.min.css" />
+    <Content Include="assets\css\ui.jqgrid123.css" />
     <Content Include="assets\css\ui.jqgrid.css" />
     <Content Include="assets\demo_data\jquery_ui\autocomplete.php" />
     <Content Include="assets\demo_data\maps\vector\gdp_demo_data.js" />

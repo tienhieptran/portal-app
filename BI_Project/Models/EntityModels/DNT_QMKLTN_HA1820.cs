@@ -1,4 +1,4 @@
-﻿namespace bicen.Services.Importers
+﻿namespace bicen.Models.EntityModels
 {
     public class DNT_QMKLTN_HA1820
     {

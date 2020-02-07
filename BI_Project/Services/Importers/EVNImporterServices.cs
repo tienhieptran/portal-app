@@ -1,6 +1,9 @@
 ﻿using BI_Project.Helpers;
 using BI_Project.Models.EntityModels;
+using bicen.Models.EntityModels;
 using bicen.Services.Importers;
+using bicen.ViewModels;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
 //using System.Data.OracleClient;
@@ -11,6 +14,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace BI_Project.Services.Importers
 {
@@ -694,13 +698,29 @@ namespace BI_Project.Services.Importers
             transaction = ConnectOracleDB.OracleDBConnect.BeginTransaction();
             ConnectOracleDB.command.Transaction = transaction;
             ConnectOracleDB.command.Parameters.Clear();
-
+            DateTime dt = DateTime.Now;
+            int curM = dt.Month;
+            int curY = dt.Year;
             string sqlSelectMenu = "select * from DNT_THCDIEN_PL72 where THANG_BC =" +month+" and NAM_BC = "+year;
+            //if (month > curM & year == curY)
+            //{
+            //    sqlSelectMenu = "select MA_DVIQLY,"+month+" as THANG_BC, NAM_BC, 0 as SO_HO_TTHI, 0 as SO_HO_NTHON, 0 as SO_HO_TTHI_CODL, 0 as SO_HO_NTHON_CODL, 0 as SO_HO_CCODL, 0 as SO_HO_CODTC from DNT_THCDIEN_PL72 where nam_bc = " + year + " and thang_bc = " + (curM) + " ";
+            //}
             this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
             this.ConnectOracleDB.command.CommandType = CommandType.Text;
             try
             {
                 OracleDataReader objReader = this.ConnectOracleDB.command.ExecuteReader();
+                if (!objReader.HasRows)
+                {
+                    sqlSelectMenu = "select MA_DVIQLY," + month + " as THANG_BC, NAM_BC, 0 as SO_HO_TTHI, 0 as SO_HO_NTHON, 0 as SO_HO_TTHI_CODL, "
+                                +"0 as SO_HO_NTHON_CODL, 0 as SO_HO_CCODL, 0 as SO_HO_CODTC from DNT_THCDIEN_PL72 where nam_bc = " + year + " and thang_bc = " + (1) + " ";
+                    this.ConnectOracleDB.command.Parameters.Clear();
+                    this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
+                    this.ConnectOracleDB.command.CommandType = CommandType.Text;
+
+                    objReader = this.ConnectOracleDB.command.ExecuteReader();
+                }
                 while (objReader.Read())
                 {
                     DNT_THCDIEN_PL72 model = new DNT_THCDIEN_PL72();
@@ -714,7 +734,9 @@ namespace BI_Project.Services.Importers
                     model.SO_HO_CCODL = objReader.GetInt32(objReader.GetOrdinal("SO_HO_CCODL"));
                     model.SO_HO_CODTC = objReader.GetInt32(objReader.GetOrdinal("SO_HO_CODTC"));
                     output.Add(model);
-                } 
+                }
+                objReader.Close();
+                objReader.Dispose();
             }
             catch (Exception ex)
             {
@@ -733,12 +755,28 @@ namespace BI_Project.Services.Importers
             ConnectOracleDB.command.Transaction = transaction;
             ConnectOracleDB.command.Parameters.Clear();
 
+            DateTime dt = DateTime.Now;
+            int curM = dt.Month;
+            int curY = dt.Year;
             string sqlSelectMenu = "select * from DNT_THCDIEN_PL71 where THANG_BC =" +month+" and NAM_BC = "+year;
+            //if (month > curM & year == curY)
+            //{
+            //    sqlSelectMenu = "select MA_DVIQLY,"+month+" as THANG_BC, NAM_BC, 0 as SO_PHUONG, 0 as SO_XA,0 as SO_PHUONG_CODL,0 as SO_XA_CODL,0 as SO_XP_CCODL,0 as SO_XA_CODTC from DNT_THCDIEN_PL71 where nam_bc = " + year + " and thang_bc = " + (curM) + " ";
+            //}
             this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
             this.ConnectOracleDB.command.CommandType = CommandType.Text;
             try
             {
                 OracleDataReader objReader = this.ConnectOracleDB.command.ExecuteReader();
+                if (!objReader.HasRows)
+                {
+                    sqlSelectMenu = "select MA_DVIQLY," + month + " as THANG_BC, NAM_BC, 0 as SO_PHUONG, 0 as SO_XA,0 as SO_PHUONG_CODL,0 as SO_XA_CODL,0 as SO_XP_CCODL,0 as SO_XA_CODTC from DNT_THCDIEN_PL71 where nam_bc = " + year + " and thang_bc = " + (1) + " ";
+                    this.ConnectOracleDB.command.Parameters.Clear();
+                    this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
+                    this.ConnectOracleDB.command.CommandType = CommandType.Text;
+
+                    objReader = this.ConnectOracleDB.command.ExecuteReader();
+                }
                 while (objReader.Read())
                 {
                     DNT_THCDIEN_PL71 model = new DNT_THCDIEN_PL71();
@@ -752,7 +790,9 @@ namespace BI_Project.Services.Importers
                     model.SO_XP_CCODL = objReader.GetInt32(objReader.GetOrdinal("SO_XP_CCODL"));
                     model.SO_XA_CODTC = objReader.GetInt32(objReader.GetOrdinal("SO_XA_CODTC"));
                     output.Add(model);
-                } 
+                }
+                objReader.Close();
+                objReader.Dispose();
             }
             catch (Exception ex)
             {
@@ -769,13 +809,33 @@ namespace BI_Project.Services.Importers
             transaction = ConnectOracleDB.OracleDBConnect.BeginTransaction();
             ConnectOracleDB.command.Transaction = transaction;
             ConnectOracleDB.command.Parameters.Clear();
-
+            DateTime dt = DateTime.Now;
+            int curM = dt.Month;
+            int curY = dt.Year;
             string sqlSelectMenu = "select * from DNT_QMKLTN_QD2081 where THANG_BC =" +month+" and NAM_BC = "+year;
+
+            //if(month > curM & year == curY)
+            //{
+            //    sqlSelectMenu = "select MA_DVIQLY, TEN_CTRINH," + month + " as THANG_BC, NAM_BC, 0 as SL_CTRINH, 0 as DZ_110, 0 as DZ_TTHE," +
+            //    " 0 as SL_TRAM, 0 as DL_TBA, 0 as DZ_HTHE, 0 asGT_DTQT,0 as GTCL_NSNN, 0 as GTCL_VVAY, 0 as GTCL_VKHAC,0 as CPHI_TNHAN, 0 as CHI_CHU from DNT_QMKLTN_QD2081 where nam_bc = " + year + " and thang_bc = " + (curM) + " ";
+            //}
+
             this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
             this.ConnectOracleDB.command.CommandType = CommandType.Text;
             try
             {
                 OracleDataReader objReader = this.ConnectOracleDB.command.ExecuteReader();
+                if (!objReader.HasRows)
+                {
+                    sqlSelectMenu = "select MA_DVIQLY, TEN_CTRINH," + month + " as THANG_BC, NAM_BC, 0 as SL_CTRINH, 0 as DZ_110, 0 as DZ_TTHE," +
+                         " 0 as SL_TRAM, 0 as DL_TBA, 0 as DZ_HTHE, 0 asGT_DTQT,0 as GTCL_NSNN, 0 as GTCL_VVAY, 0 as GTCL_VKHAC,0 as CPHI_TNHAN, 0 as CHI_CHU from DNT_QMKLTN_QD2081 where nam_bc = " + year + " and thang_bc = " + (1) + " ";
+
+                    this.ConnectOracleDB.command.Parameters.Clear();
+                    this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
+                    this.ConnectOracleDB.command.CommandType = CommandType.Text;
+
+                    objReader = this.ConnectOracleDB.command.ExecuteReader();
+                }
                 while (objReader.Read())
                 {
                     DNT_QMKLTN_QD2081 model = new DNT_QMKLTN_QD2081();
@@ -792,7 +852,9 @@ namespace BI_Project.Services.Importers
                    
                    
                     output.Add(model);
-                } 
+                }
+                objReader.Close();
+                objReader.Dispose();
             }
             catch (Exception ex)
             {
@@ -811,12 +873,29 @@ namespace BI_Project.Services.Importers
             ConnectOracleDB.command.Transaction = transaction;
             ConnectOracleDB.command.Parameters.Clear();
 
+            DateTime dt = DateTime.Now;
+            int curM = dt.Month;
+            int curY = dt.Year;
             string sqlSelectMenu = "select * from DNT_QMKL_QD41 where THANG_BC =" +month+" and NAM_BC = "+year;
             this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
             this.ConnectOracleDB.command.CommandType = CommandType.Text;
             try
             {
                 OracleDataReader objReader = this.ConnectOracleDB.command.ExecuteReader();
+                if (!objReader.HasRows)
+                {
+                    sqlSelectMenu = "select MA_DVIQLY, TEN_CTRINH, " + month + " as THANG_BC, NAM_BC, 0 as SL_CTRINH, 0 as DZ_110_UB, 0 as DZ_TTHE_UB, 0 as SL_TRAM_UB, 0 as DL_TBA_UB, 0 as DZ_HTHE_UB, 0 as NAM_VH_UB,"
+                            + "0 as NG_NSNN_UB, 0 as NG_VHPT_UB, 0 as NG_VVUD_UB, 0 as NG_QPT_UB, 0 as NG_VTD_UB, 0 as GT_CLAI_UB, 0 as QD_NTN_UB, 0 as QD_GT_UB, 'U' as PHAN_LOAI, 0 as DZ_110_EVN,0 as DZ_TTHE_EVN,"
+                            + "0 as SL_TRAM_EVN, 0 as DL_TBA_EVN, 0 as DZ_HTHE_EVN,0 as NAM_VH_EVN, 0 as QD_NTN_EVN, 0 as QD_GT_EVN, 0 as GT_NGTN_EVN,0 as GT_CLAI_EVN, 0 as CP_TN_EVN, XNHAN_EVN,0 as DZ_110_G,"
+                            + "0 as DZ_TTHE_G, 0 as SL_TRAM_G, 0 as DL_TBA_G, 0 as DZ_HTHE_G, 0 as NAM_VH_G, 0 as QD_NTN_G, 0 as QD_GT_G,0 as GT_NGTN_G,0 as GT_CLAI_G, 0 as CP_TN_G,0 as XNHAN_G from DNT_QMKL_QD41 where nam_bc = " + year + " and thang_bc = " + (1) + " ";
+
+                    this.ConnectOracleDB.command.Parameters.Clear();
+                    this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
+                    this.ConnectOracleDB.command.CommandType = CommandType.Text;
+
+                    objReader = this.ConnectOracleDB.command.ExecuteReader();
+                    
+                }
                 while (objReader.Read())
                 {
                     DNT_QMKL_QD41 model = new DNT_QMKL_QD41();
@@ -863,15 +942,26 @@ namespace BI_Project.Services.Importers
                     model.GT_NGTN_G = objReader.GetInt32(objReader.GetOrdinal("GT_NGTN_G"));
                     model.GT_CLAI_G = objReader.GetInt32(objReader.GetOrdinal("GT_CLAI_G"));
                     model.CP_TN_G = objReader.GetInt32(objReader.GetOrdinal("CP_TN_G"));
+                    model.XNHAN_G = objReader.GetInt32(objReader.GetOrdinal("XNHAN_G"));
                     output.Add(model);
-                } 
+                }
+                objReader.Close();
+                objReader.Dispose();
+
             }
             catch (Exception ex)
             {
                 this.ERROR = ex.ToString();
                 output = null;
-            }           
-
+            }
+            //if (month > curM & year == curY)
+            //{
+            //    sqlSelectMenu = "select MA_DVIQLY, TEN_CTRINH, "+month+" as THANG_BC, NAM_BC, 0 as SL_CTRINH, 0 as DZ_110_UB, 0 as DZ_TTHE_UB, 0 as SL_TRAM_UB, 0 as DL_TBA_UB, 0 as DZ_HTHE_UB, 0 as NAM_VH_UB,"
+            //                +"0 as NG_NSNN_UB, 0 as NG_VHPT_UB, 0 as NG_VVUD_UB, 0 as NG_QPT_UB, 0 as NG_VTD_UB, 0 as GT_CLAI_UB, 0 as QD_NTN_UB, 0 as QD_GT_UB, 0 as PHAN_LOAI, 0 as DZ_110_EVN,0 as DZ_TTHE_EVN,"
+            //                +"0 as SL_TRAM_EVN, 0 as DL_TBA_EVN, 0 as DZ_HTHE_EVN,0 as NAM_VH_EVN, 0 as QD_NTN_EVN, 0 as QD_GT_EVN, 0 as GT_NGTN_EVN,0 as GT_CLAI_EVN, 0 as CP_TN_EVN, XNHAN_EVN,0 as DZ_110_G,"
+            //                + "0 as DZ_TTHE_G, 0 as SL_TRAM_G, 0 as DL_TBA_G, 0 as DZ_HTHE_G, 0 as NAM_VH_G, 0 as QD_NTN_G, 0 as QD_GT_G,0 as GT_NGTN_G,0 as GT_CLAI_G, 0 as CP_TN_G,0 as XNHAN_G from DNT_QMKL_QD41 where nam_bc = " + year + " and thang_bc = " + (month-1) + " ";
+            //}
+            
             return output;
         }
 
@@ -882,13 +972,31 @@ namespace BI_Project.Services.Importers
             transaction = ConnectOracleDB.OracleDBConnect.BeginTransaction();
             ConnectOracleDB.command.Transaction = transaction;
             ConnectOracleDB.command.Parameters.Clear();
-
+            DateTime dt = DateTime.Now;
+            int curM = dt.Month;
+            int curY = dt.Year;
             string sqlSelectMenu = "select * from DNT_QMKLTN_NVK where THANG_BC =" +month+" and NAM_BC = "+year;
+            //if(month > curM & year == curY)
+            //{
+            //    sqlSelectMenu = "select MA_DVIQLY, TEN_CTRINH, "+ month +" as THANG_BC, NAM_BC, 0 as SL_CTRINH,0 as DZ_110,0 as DZ_TTHE,0 as SL_TRAM,0 as DL_TBA,"+
+            //        "0 as DZ_HTHE,0 as SL_KHTN,0 as GTRI_CTTGV, 0 as GTRI_CTTHT from DNT_QMKLTN_NVK where nam_bc = "+year+" and thang_bc = "+ (curM)+ " ";
+            //}
             this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
             this.ConnectOracleDB.command.CommandType = CommandType.Text;
             try
             {
                 OracleDataReader objReader = this.ConnectOracleDB.command.ExecuteReader();
+                if(!objReader.HasRows)
+                {
+                    sqlSelectMenu = "select MA_DVIQLY, TEN_CTRINH, " + month + " as THANG_BC, NAM_BC, 0 as SL_CTRINH,0 as DZ_110,0 as DZ_TTHE,0 as SL_TRAM,0 as DL_TBA," +
+                                    "0 as DZ_HTHE,0 as SL_KHTN,0 as GTRI_CTTGV, 0 as GTRI_CTTHT from DNT_QMKLTN_NVK where nam_bc = "+year+" and thang_bc = "+ (1)+ " ";
+                    this.ConnectOracleDB.command.Parameters.Clear();
+                    this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
+                    this.ConnectOracleDB.command.CommandType = CommandType.Text;
+
+                    objReader = this.ConnectOracleDB.command.ExecuteReader();
+
+                }
                 while (objReader.Read())
                 {
                     DNT_QMKLTN_NVK model = new DNT_QMKLTN_NVK();
@@ -903,9 +1011,12 @@ namespace BI_Project.Services.Importers
                     model.DL_TBA = objReader.GetInt32(objReader.GetOrdinal("DL_TBA"));
                     model.DZ_HTHE = objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE"));
                     model.SL_KHTN = objReader.GetInt32(objReader.GetOrdinal("SL_KHTN"));
-                    model.GTRI_CTRINH = objReader.GetInt32(objReader.GetOrdinal("GTRI_CTRINH"));
+                    model.GTRI_CTTGV = objReader.GetInt32(objReader.GetOrdinal("GTRI_CTTGV"));
+                    model.GTRI_CTTHT = objReader.GetInt32(objReader.GetOrdinal("GTRI_CTTHT"));
                     output.Add(model);
-                } 
+                }
+                objReader.Close();
+                objReader.Dispose();
             }
             catch (Exception ex)
             {
@@ -925,12 +1036,32 @@ namespace BI_Project.Services.Importers
             ConnectOracleDB.command.Transaction = transaction;
             ConnectOracleDB.command.Parameters.Clear();
 
+            DateTime dt = DateTime.Now;
+            int curM = dt.Month;
+            int curY = dt.Year;
             string sqlSelectMenu = "select * from DNT_QMKLTN_HA1820 where THANG_BC =" +month+" and NAM_BC = "+year;
+            //if (month > curM & year == curY)
+            //{
+            //    sqlSelectMenu = "select MA_DVIQLY, TEN_CTRINH," + month + " as THANG_BC, NAM_BC, 0 as SL_XA, 0 as SL_TCBD, 0 as DZ_HTHE, 0 as DZ_110, 0 as DZ_TTHE, 0 as SL_TRAM, 0 as DL_TBA, 0 as SO_HOTN,"
+            //        + "0 as GTCL_VVNSNN, 0 as GTCL_VV, 0 as GTCL_VDTHTX, 0 as GTCL_VDAN, 0 as GTCL_VKHAC, 0 as CPHI_TNCT from DNT_QMKLTN_HA1820 where nam_bc = " + year + " and thang_bc = " + (1) + " ";
+            //}
+
             this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
             this.ConnectOracleDB.command.CommandType = CommandType.Text;
             try
             {
                 OracleDataReader objReader = this.ConnectOracleDB.command.ExecuteReader();
+                if(!objReader.HasRows)
+                {
+                    sqlSelectMenu = "select MA_DVIQLY, TEN_CTRINH," + month + " as THANG_BC, NAM_BC, 0 as SL_XA, 0 as SL_TCBD, 0 as DZ_HTHE, 0 as DZ_110, 0 as DZ_TTHE, 0 as SL_TRAM, 0 as DL_TBA, 0 as SO_HOTN,"
+                   + "0 as GTCL_VVNSNN, 0 as GTCL_VV, 0 as GTCL_VDTHTX, 0 as GTCL_VDAN, 0 as GTCL_VKHAC, 0 as CPHI_TNCT from DNT_QMKLTN_HA1820 where nam_bc = " + year + " and thang_bc = " + (1) + " ";
+
+                    this.ConnectOracleDB.command.Parameters.Clear();
+                    this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
+                    this.ConnectOracleDB.command.CommandType = CommandType.Text;
+
+                    objReader = this.ConnectOracleDB.command.ExecuteReader();
+                }
                 while (objReader.Read())
                 {
                     DNT_QMKLTN_HA1820 model = new DNT_QMKLTN_HA1820();
@@ -949,7 +1080,9 @@ namespace BI_Project.Services.Importers
                     model.GTCL_VKHAC = objReader.GetInt32(objReader.GetOrdinal("GTCL_VKHAC"));
                     model.CPHI_TNCT = objReader.GetInt32(objReader.GetOrdinal("CPHI_TNCT"));
                     output.Add(model);
-                } 
+                }
+                objReader.Close();
+                objReader.Dispose();
             }
             catch (Exception ex)
             {
@@ -1252,9 +1385,134 @@ namespace BI_Project.Services.Importers
             return output;
         }
 
-        public int ExecuteDataTable(int month, int year, int file, List<T> lst){
+        public int ExecuteDataTable(int month, int year, int file, string updatedData){
             int output = 0;
-            
+            DVKH dVKH = new DVKH();
+            string data = updatedData;
+            var obj = (dynamic)null;
+            string dBName = "";
+            switch (file)
+            {
+                case 1:
+                    dVKH.DNT_QMKLTN_HA1820 = new List<DNT_QMKLTN_HA1820>();
+                    obj = JsonConvert.DeserializeObject<List<DNT_QMKLTN_HA1820>>(updatedData);
+                    dBName = "DNT_QMKLTN_HA1820";
+                    break;
+                case 2:
+                    dVKH.DNT_QMKLTN_NVK = new List<DNT_QMKLTN_NVK>();
+                    obj = (JsonConvert.DeserializeObject<List<DNT_QMKLTN_NVK>>(updatedData)).AsEnumerable<DNT_QMKLTN_NVK>();
+                    dBName = "DNT_QMKLTN_NVK";
+                    break;
+                case 3:
+                    dVKH.DNT_QMKL_QD41 = new List<DNT_QMKL_QD41>();
+                    obj = JsonConvert.DeserializeObject<List<DNT_QMKL_QD41>>(updatedData);
+                    dBName = "DNT_QMKL_QD41";
+                    break;
+                case 4:
+                    dVKH.DNT_QMKLTN_QD2081 = new List<DNT_QMKLTN_QD2081>();
+                    obj = JsonConvert.DeserializeObject<List<DNT_QMKLTN_QD2081>>(updatedData);
+                    dBName = "DNT_QMKLTN_QD2081";
+                    break;
+                case 5:
+                    dVKH.DNT_THCDIEN_PL71 = new List<DNT_THCDIEN_PL71>();
+                    obj = JsonConvert.DeserializeObject<List<DNT_THCDIEN_PL71>>(updatedData);
+                    dBName = "DNT_THCDIEN_PL71";
+                    break;
+                case 6:
+                    dVKH.DNT_THCDIEN_PL72 = new List<DNT_THCDIEN_PL72>();
+                    obj = JsonConvert.DeserializeObject<List<DNT_THCDIEN_PL72>>(updatedData);
+                    dBName = "DNT_THCDIEN_PL72";
+                    break;
+                default:
+                    break;
+            }
+
+            try
+            {
+                OracleTransaction transaction = null;
+                ConnectOracleDB.OpenDBConnect();
+                transaction = ConnectOracleDB.OracleDBConnect.BeginTransaction();
+                ConnectOracleDB.command.Transaction = transaction;
+                ConnectOracleDB.command.Parameters.Clear();
+
+                // delete old data
+                string sqlSelectMenu = "delete from " + dBName + " where THANG_BC =" + month + " and NAM_BC = " + year;
+                this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
+                this.ConnectOracleDB.command.CommandType = CommandType.Text;
+                this.ConnectOracleDB.command.ExecuteNonQuery();
+
+                this.ConnectOracleDB.command.Parameters.Clear();
+
+                //get column names
+                string colNames = "select column_name from user_tab_cols where table_name ='" + dBName + "' order by column_id";
+                this.ConnectOracleDB.command.CommandText = colNames;
+                this.ConnectOracleDB.command.CommandType = CommandType.Text;
+
+                string sqlInsertDW = "insert into " + dBName + "(";
+                string sqlInsertDWValues = " values (";
+
+                List<string> lstColumns = new List<string>();
+                try
+                {
+                    OracleDataReader objReader = this.ConnectOracleDB.command.ExecuteReader();
+                    while (objReader.Read())
+                    {
+                        string col = "";
+                        col = objReader.GetString(objReader.GetOrdinal("column_name"));
+                        lstColumns.Add(col);
+                    }
+
+
+                    foreach (string colu in lstColumns)
+                    {
+                        sqlInsertDW += colu + ",";
+                        sqlInsertDWValues += ":" + colu + ",";
+                    }
+                    sqlInsertDW = sqlInsertDW.Trim(',') + ")";
+                    sqlInsertDWValues = sqlInsertDWValues.Trim(',') + ")";
+                    int columnIndex = 0;
+
+                    foreach (var i in obj )
+                    {
+                        columnIndex = 0;
+
+                        Type type = i.GetType();
+
+                        // public properties
+                        foreach (PropertyInfo propertyInfo in type.GetProperties())
+                        {
+                            if (propertyInfo.CanRead)
+                            {
+                                string colname = lstColumns[columnIndex];
+                                object val = propertyInfo.GetValue(i, null);
+                                ConnectOracleDB.command.Parameters.Add(new OracleParameter(":" + colname, val ?? (object)DBNull.Value));
+                                columnIndex++;
+                            }
+                        }
+
+                        this.ConnectOracleDB.command.CommandText = sqlInsertDW + sqlInsertDWValues;
+                        this.ConnectOracleDB.command.CommandType = CommandType.Text;
+                        this.ConnectOracleDB.command.ExecuteNonQuery();
+                        ConnectOracleDB.command.Parameters.Clear();
+                        //rowindex++;
+                    }
+
+                    transaction.Commit();
+
+                }
+                catch (Exception ex)
+                {
+                    this.ERROR = ex.ToString();
+                    output = -1;
+                }
+                // insert new data from list
+
+            }
+            catch (Exception ex)
+            {
+                this.ERROR = ex.ToString();
+                output = -1;
+            }
 
             return output;
         }
