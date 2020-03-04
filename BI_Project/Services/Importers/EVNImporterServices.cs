@@ -727,12 +727,12 @@ namespace BI_Project.Services.Importers
                     model.MA_DVIQLY = objReader.GetString(objReader.GetOrdinal("MA_DVIQLY"));
                     model.THANG_BC = objReader.GetInt32(objReader.GetOrdinal("THANG_BC"));
                     model.NAM_BC = objReader.GetInt32(objReader.GetOrdinal("NAM_BC"));
-                    model.SO_HO_TTHI = objReader.GetInt32(objReader.GetOrdinal("SO_HO_TTHI"));
-                    model.SO_HO_NTHON = objReader.GetInt32(objReader.GetOrdinal("SO_HO_NTHON"));
-                    model.SO_HO_TTHI_CODL = objReader.GetInt32(objReader.GetOrdinal("SO_HO_TTHI_CODL"));
-                    model.SO_HO_NTHON_CODL = objReader.GetInt32(objReader.GetOrdinal("SO_HO_NTHON_CODL"));
-                    model.SO_HO_CCODL = objReader.GetInt32(objReader.GetOrdinal("SO_HO_CCODL"));
-                    model.SO_HO_CODTC = objReader.GetInt32(objReader.GetOrdinal("SO_HO_CODTC"));
+                    model.SO_HO_TTHI = objReader.IsDBNull(objReader.GetOrdinal("SO_HO_TTHI")) ? 0 : objReader.IsDBNull(objReader.GetOrdinal("SO_HO_TTHI")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SO_HO_TTHI"));
+                    model.SO_HO_NTHON = objReader.IsDBNull(objReader.GetOrdinal("SO_HO_NTHON")) ? 0 : objReader.IsDBNull(objReader.GetOrdinal("SO_HO_NTHON")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SO_HO_NTHON"));
+                    model.SO_HO_TTHI_CODL = objReader.IsDBNull(objReader.GetOrdinal("SO_HO_TTHI_CODL")) ? 0 : objReader.IsDBNull(objReader.GetOrdinal("SO_HO_TTHI_CODL")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SO_HO_TTHI_CODL"));
+                    model.SO_HO_NTHON_CODL = objReader.IsDBNull(objReader.GetOrdinal("SO_HO_NTHON_CODL")) ? 0 : objReader.IsDBNull(objReader.GetOrdinal("SO_HO_NTHON_CODL")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SO_HO_NTHON_CODL"));
+                    model.SO_HO_CCODL = objReader.IsDBNull(objReader.GetOrdinal("SO_HO_CCODL")) ? 0 : objReader.IsDBNull(objReader.GetOrdinal("SO_HO_CCODL")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SO_HO_CCODL"));
+                    model.SO_HO_CODTC = objReader.IsDBNull(objReader.GetOrdinal("SO_HO_CODTC")) ? 0 : objReader.IsDBNull(objReader.GetOrdinal("SO_HO_CODTC")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SO_HO_CODTC"));
                     output.Add(model);
                 }
                 objReader.Close();
@@ -783,12 +783,12 @@ namespace BI_Project.Services.Importers
                     model.MA_DVIQLY = objReader.GetString(objReader.GetOrdinal("MA_DVIQLY"));
                     model.THANG_BC = objReader.GetInt32(objReader.GetOrdinal("THANG_BC"));
                     model.NAM_BC = objReader.GetInt32(objReader.GetOrdinal("NAM_BC"));
-                    model.SO_PHUONG = objReader.GetInt32(objReader.GetOrdinal("SO_PHUONG"));
-                    model.SO_XA = objReader.GetInt32(objReader.GetOrdinal("SO_XA"));
-                    model.SO_PHUONG_CODL = objReader.GetInt32(objReader.GetOrdinal("SO_PHUONG_CODL"));
-                    model.SO_XA_CODL = objReader.GetInt32(objReader.GetOrdinal("SO_XA_CODL"));
-                    model.SO_XP_CCODL = objReader.GetInt32(objReader.GetOrdinal("SO_XP_CCODL"));
-                    model.SO_XA_CODTC = objReader.GetInt32(objReader.GetOrdinal("SO_XA_CODTC"));
+                    model.SO_PHUONG = objReader.IsDBNull(objReader.GetOrdinal("SO_PHUONG")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SO_PHUONG"));
+                    model.SO_XA = objReader.IsDBNull(objReader.GetOrdinal("SO_XA")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SO_XA"));
+                    model.SO_PHUONG_CODL = objReader.IsDBNull(objReader.GetOrdinal("SO_PHUONG_CODL")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SO_PHUONG_CODL"));
+                    model.SO_XA_CODL = objReader.IsDBNull(objReader.GetOrdinal("SO_XA_CODL")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SO_XA_CODL"));
+                    model.SO_XP_CCODL = objReader.IsDBNull(objReader.GetOrdinal("SO_XP_CCODL")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SO_XP_CCODL"));
+                    model.SO_XA_CODTC = objReader.IsDBNull(objReader.GetOrdinal("SO_XA_CODTC")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SO_XA_CODTC"));
                     output.Add(model);
                 }
                 objReader.Close();
@@ -810,15 +810,7 @@ namespace BI_Project.Services.Importers
             ConnectOracleDB.command.Transaction = transaction;
             ConnectOracleDB.command.Parameters.Clear();
             DateTime dt = DateTime.Now;
-            int curM = dt.Month;
-            int curY = dt.Year;
             string sqlSelectMenu = "select * from DNT_QMKLTN_QD2081 where THANG_BC =" +month+" and NAM_BC = "+year;
-
-            //if(month > curM & year == curY)
-            //{
-            //    sqlSelectMenu = "select MA_DVIQLY, TEN_CTRINH," + month + " as THANG_BC, NAM_BC, 0 as SL_CTRINH, 0 as DZ_110, 0 as DZ_TTHE," +
-            //    " 0 as SL_TRAM, 0 as DL_TBA, 0 as DZ_HTHE, 0 asGT_DTQT,0 as GTCL_NSNN, 0 as GTCL_VVAY, 0 as GTCL_VKHAC,0 as CPHI_TNHAN, 0 as CHI_CHU from DNT_QMKLTN_QD2081 where nam_bc = " + year + " and thang_bc = " + (curM) + " ";
-            //}
 
             this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
             this.ConnectOracleDB.command.CommandType = CommandType.Text;
@@ -843,13 +835,12 @@ namespace BI_Project.Services.Importers
                     model.TEN_CTRINH = objReader.GetString(objReader.GetOrdinal("TEN_CTRINH"));
                     model.THANG_BC = objReader.GetInt32(objReader.GetOrdinal("THANG_BC"));
                     model.NAM_BC = objReader.GetInt32(objReader.GetOrdinal("NAM_BC"));
-                    model.SL_CTRINH = objReader.GetInt32(objReader.GetOrdinal("SL_CTRINH"));
-                    model.DZ_110 = objReader.GetInt32(objReader.GetOrdinal("DZ_110"));
-                    model.DZ_TTHE = objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE"));
-                    model.SL_TRAM = objReader.GetInt32(objReader.GetOrdinal("SL_TRAM"));
-                    model.DL_TBA = objReader.GetInt32(objReader.GetOrdinal("DL_TBA"));
-                    model.DZ_HTHE = objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE"));
-                   
+                    model.SL_CTRINH = objReader.IsDBNull(objReader.GetOrdinal("SL_CTRINH")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SL_CTRINH"));
+                    model.DZ_110 = objReader.IsDBNull(objReader.GetOrdinal("DZ_110")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_110"));
+                    model.DZ_TTHE = objReader.IsDBNull(objReader.GetOrdinal("DZ_TTHE")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE"));
+                    model.SL_TRAM = objReader.IsDBNull(objReader.GetOrdinal("SL_TRAM")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SL_TRAM"));
+                    model.DL_TBA = objReader.IsDBNull(objReader.GetOrdinal("DL_TBA")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DL_TBA"));
+                    model.DZ_HTHE = objReader.IsDBNull(objReader.GetOrdinal("DZ_HTHE")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE"));
                    
                     output.Add(model);
                 }
@@ -903,46 +894,46 @@ namespace BI_Project.Services.Importers
                     model.TEN_CTRINH = objReader.GetString(objReader.GetOrdinal("TEN_CTRINH"));
                     model.THANG_BC = objReader.GetInt32(objReader.GetOrdinal("THANG_BC"));
                     model.NAM_BC = objReader.GetInt32(objReader.GetOrdinal("NAM_BC"));
-                    model.SL_CTRINH = objReader.GetInt32(objReader.GetOrdinal("SL_CTRINH"));
-                    model.DZ_110_UB = objReader.GetInt32(objReader.GetOrdinal("DZ_110_UB"));
-                    model.DZ_TTHE_UB = objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE_UB"));
-                    model.SL_TRAM_UB = objReader.GetInt32(objReader.GetOrdinal("SL_TRAM_UB"));
-                    model.DL_TBA_UB = objReader.GetInt32(objReader.GetOrdinal("DL_TBA_UB"));
-                    model.DZ_HTHE_UB = objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE_UB"));
-                    model.NAM_VH_UB = objReader.GetInt32(objReader.GetOrdinal("NAM_VH_UB"));
-                    model.NG_NSNN_UB = objReader.GetInt32(objReader.GetOrdinal("NG_NSNN_UB"));
-                    model.NG_VHPT_UB = objReader.GetInt32(objReader.GetOrdinal("NG_VHPT_UB"));
-                    model.NG_VVUD_UB = objReader.GetInt32(objReader.GetOrdinal("NG_VVUD_UB"));
-                    model.NG_QPT_UB = objReader.GetInt32(objReader.GetOrdinal("NG_QPT_UB"));
-                    model.NG_VTD_UB = objReader.GetInt32(objReader.GetOrdinal("NG_VTD_UB"));
-                    model.GT_CLAI_UB = objReader.GetInt32(objReader.GetOrdinal("GT_CLAI_UB"));
-                    model.QD_NTN_UB = objReader.GetInt32(objReader.GetOrdinal("QD_NTN_UB"));
-                    model.QD_GT_UB = objReader.GetInt32(objReader.GetOrdinal("QD_GT_UB"));
-                    model.PHAN_LOAI = objReader.GetString(objReader.GetOrdinal("PHAN_LOAI"));
-                    model.DZ_110_EVN = objReader.GetInt32(objReader.GetOrdinal("DZ_110_EVN"));
-                    model.DZ_TTHE_EVN = objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE_EVN"));
-                    model.SL_TRAM_EVN = objReader.GetInt32(objReader.GetOrdinal("SL_TRAM_EVN"));
-                    model.DL_TBA_EVN = objReader.GetInt32(objReader.GetOrdinal("DL_TBA_EVN"));
-                    model.DZ_HTHE_EVN = objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE_EVN"));
-                    model.NAM_VH_EVN = objReader.GetInt32(objReader.GetOrdinal("NAM_VH_EVN"));
-                    model.QD_NTN_EVN = objReader.GetInt32(objReader.GetOrdinal("QD_NTN_EVN"));
-                    model.QD_GT_EVN = objReader.GetInt32(objReader.GetOrdinal("QD_GT_EVN"));
-                    model.GT_NGTN_EVN = objReader.GetInt32(objReader.GetOrdinal("GT_NGTN_EVN"));
-                    model.GT_CLAI_EVN = objReader.GetInt32(objReader.GetOrdinal("GT_CLAI_EVN"));
-                    model.CP_TN_EVN = objReader.GetInt32(objReader.GetOrdinal("CP_TN_EVN"));
-                    model.XNHAN_EVN = objReader.GetInt32(objReader.GetOrdinal("XNHAN_EVN"));
-                    model.DZ_110_G = objReader.GetInt32(objReader.GetOrdinal("DZ_110_G"));
-                    model.DZ_TTHE_G = objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE_G"));
-                    model.SL_TRAM_G = objReader.GetInt32(objReader.GetOrdinal("SL_TRAM_G"));
-                    model.DL_TBA_G = objReader.GetInt32(objReader.GetOrdinal("DL_TBA_G"));
-                    model.DZ_HTHE_G = objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE_G"));
-                    model.NAM_VH_G = objReader.GetInt32(objReader.GetOrdinal("NAM_VH_G"));
-                    model.QD_NTN_G = objReader.GetInt32(objReader.GetOrdinal("QD_NTN_G"));
-                    model.QD_GT_G = objReader.GetInt32(objReader.GetOrdinal("QD_GT_G"));
-                    model.GT_NGTN_G = objReader.GetInt32(objReader.GetOrdinal("GT_NGTN_G"));
-                    model.GT_CLAI_G = objReader.GetInt32(objReader.GetOrdinal("GT_CLAI_G"));
-                    model.CP_TN_G = objReader.GetInt32(objReader.GetOrdinal("CP_TN_G"));
-                    model.XNHAN_G = objReader.GetInt32(objReader.GetOrdinal("XNHAN_G"));
+                    model.SL_CTRINH = objReader.IsDBNull(objReader.GetOrdinal("SL_CTRINH")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SL_CTRINH"));
+                    model.DZ_110_UB = objReader.IsDBNull(objReader.GetOrdinal("DZ_110_UB")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_110_UB"));
+                    model.DZ_TTHE_UB = objReader.IsDBNull(objReader.GetOrdinal("DZ_TTHE_UB")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE_UB"));
+                    model.SL_TRAM_UB = objReader.IsDBNull(objReader.GetOrdinal("SL_TRAM_UB")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SL_TRAM_UB"));
+                    model.DL_TBA_UB = objReader.IsDBNull(objReader.GetOrdinal("DL_TBA_UB")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DL_TBA_UB"));
+                    model.DZ_HTHE_UB = objReader.IsDBNull(objReader.GetOrdinal("DZ_HTHE_UB")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE_UB"));
+                    model.NAM_VH_UB = objReader.IsDBNull(objReader.GetOrdinal("NAM_VH_UB")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("NAM_VH_UB"));
+                    model.NG_NSNN_UB = objReader.IsDBNull(objReader.GetOrdinal("NG_NSNN_UB")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("NG_NSNN_UB"));
+                    model.NG_VHPT_UB = objReader.IsDBNull(objReader.GetOrdinal("NG_VHPT_UB")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("NG_VHPT_UB"));
+                    model.NG_VVUD_UB = objReader.IsDBNull(objReader.GetOrdinal("NG_VVUD_UB")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("NG_VVUD_UB"));
+                    model.NG_QPT_UB = objReader.IsDBNull(objReader.GetOrdinal("NG_QPT_UB")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("NG_QPT_UB"));
+                    model.NG_VTD_UB = objReader.IsDBNull(objReader.GetOrdinal("NG_VTD_UB")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("NG_VTD_UB"));
+                    model.GT_CLAI_UB = objReader.IsDBNull(objReader.GetOrdinal("GT_CLAI_UB")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("GT_CLAI_UB"));
+                    model.QD_NTN_UB = objReader.IsDBNull(objReader.GetOrdinal("QD_NTN_UB")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("QD_NTN_UB"));
+                    model.QD_GT_UB = objReader.IsDBNull(objReader.GetOrdinal("QD_GT_UB")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("QD_GT_UB"));
+                    model.PHAN_LOAI = objReader.IsDBNull(objReader.GetOrdinal("PHAN_LOAI")) ? "0" : objReader.GetString(objReader.GetOrdinal("PHAN_LOAI"));
+                    model.DZ_110_EVN = objReader.IsDBNull(objReader.GetOrdinal("DZ_110_EVN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_110_EVN"));
+                    model.DZ_TTHE_EVN = objReader.IsDBNull(objReader.GetOrdinal("DZ_TTHE_EVN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE_EVN"));
+                    model.SL_TRAM_EVN = objReader.IsDBNull(objReader.GetOrdinal("SL_TRAM_EVN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SL_TRAM_EVN"));
+                    model.DL_TBA_EVN = objReader.IsDBNull(objReader.GetOrdinal("DL_TBA_EVN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DL_TBA_EVN"));
+                    model.DZ_HTHE_EVN = objReader.IsDBNull(objReader.GetOrdinal("DZ_HTHE_EVN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE_EVN"));
+                    model.NAM_VH_EVN = objReader.IsDBNull(objReader.GetOrdinal("NAM_VH_EVN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("NAM_VH_EVN"));
+                    model.QD_NTN_EVN = objReader.IsDBNull(objReader.GetOrdinal("QD_NTN_EVN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("QD_NTN_EVN"));
+                    model.QD_GT_EVN = objReader.IsDBNull(objReader.GetOrdinal("QD_GT_EVN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("QD_GT_EVN"));
+                    model.GT_NGTN_EVN = objReader.IsDBNull(objReader.GetOrdinal("GT_NGTN_EVN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("GT_NGTN_EVN"));
+                    model.GT_CLAI_EVN = objReader.IsDBNull(objReader.GetOrdinal("GT_CLAI_EVN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("GT_CLAI_EVN"));
+                    model.CP_TN_EVN = objReader.IsDBNull(objReader.GetOrdinal("CP_TN_EVN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("CP_TN_EVN"));
+                    model.XNHAN_EVN = objReader.IsDBNull(objReader.GetOrdinal("XNHAN_EVN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("XNHAN_EVN"));
+                    model.DZ_110_G = objReader.IsDBNull(objReader.GetOrdinal("DZ_110_G")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_110_G"));
+                    model.DZ_TTHE_G = objReader.IsDBNull(objReader.GetOrdinal("DZ_TTHE_G")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE_G"));
+                    model.SL_TRAM_G = objReader.IsDBNull(objReader.GetOrdinal("SL_TRAM_G")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SL_TRAM_G"));
+                    model.DL_TBA_G = objReader.IsDBNull(objReader.GetOrdinal("DL_TBA_G")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DL_TBA_G"));
+                    model.DZ_HTHE_G = objReader.IsDBNull(objReader.GetOrdinal("DZ_HTHE_G")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE_G"));
+                    model.NAM_VH_G = objReader.IsDBNull(objReader.GetOrdinal("NAM_VH_G")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("NAM_VH_G"));
+                    model.QD_NTN_G = objReader.IsDBNull(objReader.GetOrdinal("QD_NTN_G")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("QD_NTN_G"));
+                    model.QD_GT_G = objReader.IsDBNull(objReader.GetOrdinal("QD_GT_G")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("QD_GT_G"));
+                    model.GT_NGTN_G = objReader.IsDBNull(objReader.GetOrdinal("GT_NGTN_G")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("GT_NGTN_G"));
+                    model.GT_CLAI_G = objReader.IsDBNull(objReader.GetOrdinal("GT_CLAI_G")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("GT_CLAI_G"));
+                    model.CP_TN_G = objReader.IsDBNull(objReader.GetOrdinal("CP_TN_G")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("CP_TN_G"));
+                    model.XNHAN_G = objReader.IsDBNull(objReader.GetOrdinal("XNHAN_G")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("XNHAN_G"));
                     output.Add(model);
                 }
                 objReader.Close();
@@ -1004,15 +995,15 @@ namespace BI_Project.Services.Importers
                     model.TEN_CTRINH = objReader.GetString(objReader.GetOrdinal("TEN_CTRINH"));
                     model.THANG_BC = objReader.GetInt32(objReader.GetOrdinal("THANG_BC"));
                     model.NAM_BC = objReader.GetInt32(objReader.GetOrdinal("NAM_BC"));
-                    model.SL_CTRINH = objReader.GetInt32(objReader.GetOrdinal("SL_CTRINH"));
-                    model.DZ_110 = objReader.GetInt32(objReader.GetOrdinal("DZ_110"));
-                    model.DZ_TTHE = objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE"));
-                    model.SL_TRAM = objReader.GetInt32(objReader.GetOrdinal("SL_TRAM"));
-                    model.DL_TBA = objReader.GetInt32(objReader.GetOrdinal("DL_TBA"));
-                    model.DZ_HTHE = objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE"));
-                    model.SL_KHTN = objReader.GetInt32(objReader.GetOrdinal("SL_KHTN"));
-                    model.GTRI_CTTGV = objReader.GetInt32(objReader.GetOrdinal("GTRI_CTTGV"));
-                    model.GTRI_CTTHT = objReader.GetInt32(objReader.GetOrdinal("GTRI_CTTHT"));
+                    model.SL_CTRINH = objReader.IsDBNull(objReader.GetOrdinal("SL_CTRINH")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SL_CTRINH"));
+                    model.DZ_110 = objReader.IsDBNull(objReader.GetOrdinal("DZ_110")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_110"));
+                    model.DZ_TTHE = objReader.IsDBNull(objReader.GetOrdinal("DZ_TTHE")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE"));
+                    model.SL_TRAM = objReader.IsDBNull(objReader.GetOrdinal("SL_TRAM")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SL_TRAM"));
+                    model.DL_TBA = objReader.IsDBNull(objReader.GetOrdinal("DL_TBA")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DL_TBA"));
+                    model.DZ_HTHE = objReader.IsDBNull(objReader.GetOrdinal("DZ_HTHE")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE"));
+                    model.SL_KHTN = objReader.IsDBNull(objReader.GetOrdinal("SL_KHTN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SL_KHTN"));
+                    model.GTRI_CTTGV = objReader.IsDBNull(objReader.GetOrdinal("GTRI_CTTGV")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("GTRI_CTTGV"));
+                    model.GTRI_CTTHT = objReader.IsDBNull(objReader.GetOrdinal("GTRI_CTTHT")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("GTRI_CTTHT"));
                     output.Add(model);
                 }
                 objReader.Close();
@@ -1069,16 +1060,20 @@ namespace BI_Project.Services.Importers
                     model.TEN_CTRINH = objReader.GetString(objReader.GetOrdinal("TEN_CTRINH"));
                     model.THANG_BC = objReader.GetInt32(objReader.GetOrdinal("THANG_BC"));
                     model.NAM_BC = objReader.GetInt32(objReader.GetOrdinal("NAM_BC"));
-                    model.SL_XA = objReader.GetInt32(objReader.GetOrdinal("SL_XA"));
-                    model.SL_TCBD = objReader.GetInt32(objReader.GetOrdinal("SL_TCBD"));
-                    model.DZ_HTHE = objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE"));
-                    model.SO_HOTN = objReader.GetInt32(objReader.GetOrdinal("SO_HOTN"));
-                    model.GTCL_VVNSNN = objReader.GetInt32(objReader.GetOrdinal("GTCL_VVNSNN"));
-                    model.GTCL_VV = objReader.GetInt32(objReader.GetOrdinal("GTCL_VV"));
-                    model.GTCL_VDTHTX = objReader.GetInt32(objReader.GetOrdinal("GTCL_VDTHTX"));
-                    model.GTCL_VDAN = objReader.GetInt32(objReader.GetOrdinal("GTCL_VDAN"));
-                    model.GTCL_VKHAC = objReader.GetInt32(objReader.GetOrdinal("GTCL_VKHAC"));
-                    model.CPHI_TNCT = objReader.GetInt32(objReader.GetOrdinal("CPHI_TNCT"));
+                    model.SL_XA = objReader.IsDBNull(objReader.GetOrdinal("SL_XA")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SL_XA"));
+                    model.SL_TCBD = objReader.IsDBNull(objReader.GetOrdinal("SL_TCBD")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SL_TCBD"));
+                    model.DZ_HTHE = objReader.IsDBNull(objReader.GetOrdinal("DZ_HTHE")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_HTHE"));
+                    model.DZ_110 = objReader.IsDBNull(objReader.GetOrdinal("DZ_110")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_110"));
+                    model.DZ_TTHE = objReader.IsDBNull(objReader.GetOrdinal("DZ_TTHE")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DZ_TTHE"));
+                    model.SL_TRAM = objReader.IsDBNull(objReader.GetOrdinal("SL_TRAM")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SL_TRAM"));
+                    model.DL_TBA = objReader.IsDBNull(objReader.GetOrdinal("DL_TBA")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("DL_TBA"));
+                    model.SO_HOTN = objReader.IsDBNull(objReader.GetOrdinal("SO_HOTN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("SO_HOTN"));
+                    model.GTCL_VVNSNN = objReader.IsDBNull(objReader.GetOrdinal("GTCL_VVNSNN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("GTCL_VVNSNN"));
+                    model.GTCL_VV = objReader.IsDBNull(objReader.GetOrdinal("GTCL_VV")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("GTCL_VV"));
+                    model.GTCL_VDTHTX = objReader.IsDBNull(objReader.GetOrdinal("GTCL_VDTHTX")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("GTCL_VDTHTX"));
+                    model.GTCL_VDAN = objReader.IsDBNull(objReader.GetOrdinal("GTCL_VDAN")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("GTCL_VDAN"));
+                    model.GTCL_VKHAC = objReader.IsDBNull(objReader.GetOrdinal("GTCL_VKHAC")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("GTCL_VKHAC"));
+                    model.CPHI_TNCT = objReader.IsDBNull(objReader.GetOrdinal("CPHI_TNCT")) ? 0 : objReader.GetInt32(objReader.GetOrdinal("CPHI_TNCT"));
                     output.Add(model);
                 }
                 objReader.Close();
@@ -1278,9 +1273,6 @@ namespace BI_Project.Services.Importers
             List<Dictionary<string, object>> lst_store = new List<Dictionary<string, object>>();
             List<Dictionary<string, object>> lst_kpi = new List<Dictionary<string, object>>();
             List<Dictionary<string, object>> ouput = new List<Dictionary<string, object>>();
-
-
-
 
             try
             {
@@ -1515,6 +1507,41 @@ namespace BI_Project.Services.Importers
             }
 
             return output;
+        }
+
+        public List<MoTaDNTModel> GetMotaDNTs(string id)
+        {
+            List<MoTaDNTModel> dNTs = new List<MoTaDNTModel>();
+            OracleTransaction transaction = null;
+            ConnectOracleDB.OpenDBConnect();
+            transaction = ConnectOracleDB.OracleDBConnect.BeginTransaction();
+            ConnectOracleDB.command.Transaction = transaction;
+            ConnectOracleDB.command.Parameters.Clear();
+
+            string sqlSelectMenu = "select col_name, data_type, description from MotaDNT where table_id =" + id + "";
+            this.ConnectOracleDB.command.CommandText = sqlSelectMenu;
+            this.ConnectOracleDB.command.CommandType = CommandType.Text;
+            try
+            {
+                OracleDataReader objReader = this.ConnectOracleDB.command.ExecuteReader();
+                while (objReader.Read())
+                {
+                    MoTaDNTModel model = new MoTaDNTModel();
+                    model.Col_name = objReader.GetString(objReader.GetOrdinal("COL_NAME"));
+                    model.Data_type = objReader.GetString(objReader.GetOrdinal("DATA_TYPE"));
+                    model.Description = objReader.GetString(objReader.GetOrdinal("DESCRIPTION"));
+                    dNTs.Add(model);
+                }
+                objReader.Close();
+                objReader.Dispose();
+            }
+            catch (Exception ex)
+            {
+                this.ERROR = ex.ToString();
+                dNTs = null;
+            }
+
+            return dNTs;
         }
 
     }

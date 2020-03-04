@@ -4,6 +4,7 @@ using BI_Project.Models.UI;
 using BI_Project.Services.Departments;
 using BI_Project.Services.User;
 using BI_SUN.Services.SetDefaultPage;
+using bicen.Helpers;
 using bicen.Models.EntityModels;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Web.Mvc;
 
 namespace BI_Project.Controllers
 {
+    [CheckSessionTimeOut]
     public class HomeController : BaseController
     {
         public ActionResult Index()

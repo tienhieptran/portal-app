@@ -9,6 +9,10 @@
         public int SL_XA { get; set; }
         public int SL_TCBD { get; set; }
         public int DZ_HTHE { get; set; }
+        public int? DZ_110 { get; set; }
+        public int DZ_TTHE { get; set; }
+        public int SL_TRAM { get; set; }
+        public int DL_TBA { get; set; }
         public int SO_HOTN { get; set; }
         public int GTCL_VVNSNN { get; set; }
         public int GTCL_VV { get; set; }

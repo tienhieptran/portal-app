@@ -40,3 +40,14 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+<script>
+    //session end
+    var sessionTimeoutWarning = @Session.Timeout- 1;
+
+    var sTimeout = parseInt(sessionTimeoutWarning) * 60 * 1000;
+    setTimeout('SessionEnd()', sTimeout);
+
+    function SessionEnd() {
+        window.location = "/Home/Logout"; //or you could jump to login view driectlly
+    }
+</script>

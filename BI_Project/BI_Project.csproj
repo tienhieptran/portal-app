@@ -192,6 +192,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CheckSessionOutAttribute.cs" />
     <Compile Include="Helpers\CheckUserMenus.cs" />
     <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
@@ -219,6 +220,8 @@
     <Compile Include="Models\EntityModels\EntityUserModel.cs" />
     <Compile Include="Models\EntityModels\EntityUserRoleModel.cs" />
     <Compile Include="Models\EntityModels\EntityUserTimeModel.cs" />
+    <Compile Include="Models\EntityModels\MotaDNT.cs" />
+    <Compile Include="Models\EntityModels\MoTaDNTModel.cs" />
     <Compile Include="Models\EntityModels\Product.cs" />
     <Compile Include="Models\EntityModels\ProductModel.cs" />
     <Compile Include="Models\UI\BlockLanguageModel.cs" />
@@ -3313,9 +3316,10 @@
     <Content Include="Views\Excels\EVNPL_block_upload_excel.cshtml" />
     <Content Include="Views\DefaultPage\SetDefaultPage.cshtml" />
     <Content Include="Views\EVNImportExcelPL\jqGrid.cshtml" />
-    <Content Include="Views\EVNImportExcelPL\_GridEditPartial.cshtml" />
     <Content Include="Views\EVNImportExcelPL\EVNPL_block_upload_dnt.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Views\EVNImportExcelPL\_GetTableDescriptionById.cshtml" />
+    <Content Include="Views\EVNImportExcelPL\_GridTableDescriptionPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

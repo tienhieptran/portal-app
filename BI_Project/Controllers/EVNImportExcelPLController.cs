@@ -253,6 +253,34 @@ namespace bicen.Controllers
             return View();
         }
 
+        public ActionResult GetTableDescriptionById(string id)
+        {
+            this.SetConnectionDB();
+            EVNImporterServices services = new EVNImporterServices(oracleConnection, DBConnection);
+
+            //var dnts = Product.GetSampleProducts().Where(x => x.Id == id); ;
+            var dnts = services.GetMotaDNTs(id);
+
+            if (dnts != null)
+            {
+                List<MoTaDNTModel> model = new List<MoTaDNTModel>();
+
+                foreach (var item in dnts)
+                {
+                    MoTaDNTModel dnt = new MoTaDNTModel();
+                    dnt.Col_name = item.Col_name;
+                    dnt.Data_type = item.Data_type;
+                    dnt.Description = item.Description;
+                    model.Add(dnt);
+                }
+
+                return PartialView("_GridTableDescriptionPartial", model);
+            }
+
+            return View();
+        }
+
+
         [HttpGet]
         public JsonResult GetDataRows(int year, int month, int file)
         {
@@ -364,16 +392,36 @@ namespace bicen.Controllers
                 this.SetConnectionDB();
                 EVNImporterServices services = new EVNImporterServices(oracleConnection, DBConnection);
                 output = services.ExecuteDataTable(model.Month, model.Year, model.File, model.DataString);
+                if(output == 0)
+                {
+                    Session["msg_text"] = BlockLanguageModel.GetElementLang(this.LANGUAGE_OBJECT, "messages.block_upload_excel.success");
 
-                Session["msg_text"] = BlockLanguageModel.GetElementLang(this.LANGUAGE_OBJECT, "messages.block_upload_excel.success");
+                    Session["msg_code"] = 1;
+                }
+                else
+                {
+                    if (services.ERROR != null) throw new Exception(services.ERROR);
+                    //Session["msg_text"] = BlockLanguageModel.GetElementLang(this.LANGUAGE_OBJECT, "messages.block_upload_excel.error") + " Lỗi " + services.ERROR.ToString();
+                    Session["msg_text"] = BlockLanguageModel.GetElementLang(this.LANGUAGE_OBJECT, "messages.block_upload_excel.error") + " Lỗi dữ liệu nhập vào." ;
 
-                Session["msg_code"] = 1;
+                    Session["msg_code"] = -1;
+                }
             }
             catch (Exception ex)
             {
-                Session["msg_text"] = BlockLanguageModel.GetElementLang(this.LANGUAGE_OBJECT, "messages.block_upload_excel.error") + " Lỗi " + ex.Message;
+                Session["msg_text"] = BlockLanguageModel.GetElementLang(this.LANGUAGE_OBJECT, "messages.block_upload_excel.error") + " Lỗi dữ liệu nhập vào. ";
 
                 Session["msg_code"] = -1;
+            }
+
+
+            if(model.Type == 1) {
+                var jsonData = new
+                {
+                    rows = JsonConvert.DeserializeObject<List<object>>(model.DataString)
+                };
+
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
             
             return RedirectToAction("AddDNTData");
